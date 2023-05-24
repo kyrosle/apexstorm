@@ -1,6 +1,21 @@
 [
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Ilib", "-DNDEBUG", "-o", "build/.objs/apexstorm/linux/x86_64/release/src/main.cpp.o", "src/main.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-o", "build/.objs/test/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
+  "file": "lib/log.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-o", "build/.objs/test/linux/x86_64/debug/tests/test.cpp.o", "tests/test.cpp"],
+  "file": "tests/test.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-o", "build/.objs/apexstorm/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
+  "file": "lib/log.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-o", "build/.objs/apexstorm/linux/x86_64/debug/src/main.cpp.o", "src/main.cpp"],
   "file": "src/main.cpp"
 }]
