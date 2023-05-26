@@ -6,12 +6,6 @@
  * @date 2023-05-25
  *
  * @copyright Copyright (c) 2023
- *
- * @par modified log:
- * <table>
- * <tr><th>Date       <th>Version <th>Author  <th>Description
- * <tr><td>2023-05-25 <td>1.0     <td>wangh     <td>内容
- * </table>
  */
 
 #ifndef __APEXSTORM_LOG_H__
@@ -32,6 +26,7 @@
 #include <string>
 #include <vector>
 
+// -- Use streaming to write log level logs to logger --
 #define APEXSTORM_LOG_LEVEL(logger, level)                                     \
   if (logger->getLevel() <= level)                                             \
   apexstorm::LogEventWrap(                                                     \
@@ -51,6 +46,7 @@
 #define APEXSTORM_LOG_FATAL(logger)                                            \
   APEXSTORM_LOG_LEVEL(logger, apexstorm::LogLevel::Level::FATAL)
 
+// -- Write log level logs to logger using formatting --
 #define APEXSTORM_LOG_FMT_LEVEL(logger, level, fmt, ...)                       \
   if (logger->getLevel() <= level)                                             \
   apexstorm::LogEventWrap(                                                     \
@@ -79,9 +75,10 @@
 namespace apexstorm {
 
 class Logger;
+class LoggerManager;
 
 /**
- * @brief Log level
+ * @brief Log Level
  */
 class LogLevel {
 public:
@@ -98,22 +95,20 @@ public:
     FATAL,
   };
   /**
-   * @brief Transfer LogLevel into string
-   * @param  level      specifed LogLevel type
-   * @return LogLevel context
+   * @brief Convert log levels to text output
+   * @param  level        Specifed LogLevel type
    */
   static const char *ToString(LogLevel::Level level);
 
   /**
-   * @brief Transfer string into LogLevel
-   * @param  str        LogLevel context
-   * @return LogLevel type
+   * @brief Convert text to log level
+   * @param  str          LogLevel text
    */
   static LogLevel FromString(const std::string str);
 };
 
 /**
- * @brief Log event
+ * @brief Log Event
  */
 class LogEvent {
 public:
@@ -126,7 +121,6 @@ public:
    * @param file            Logger file name
    * @param line            Logger file line number
    * @param elapse          Time (milliseconds) for program startup
-   * dependencies
    * @param thread_id       Thread id
    * @param fiber_id        Fiber id
    * @param time            Time (seconds) Log event
@@ -137,76 +131,114 @@ public:
            uint32_t thread_id, uint32_t fiber_id, uint64_t time);
 
   /**
-   * @brief Get the Logger file
-   * @return const char*
+   * @brief Get the Logger file name
    */
   const char *getFile() const { return m_file; }
+
   /**
    * @brief Get the file line number
-   * @return int32_t
    */
   int32_t getLine() const { return m_line; }
   /**
    * @brief Get the Time (milliseconds) for program startup dependencies
-   * @return uint32_t
    */
   uint32_t getElapse() const { return m_elapse; }
+
   /**
    * @brief Get the Thread Id
-   * @return uint32_t
    */
   uint32_t getThreadId() const { return m_threadId; }
+
   /**
    * @brief Get the Fiber Id
-   * @return uint32_t
    */
   uint32_t getFiberId() const { return m_fiberId; }
+
   /**
    * @brief Get the Time (seconds) Log event
-   * @return uint64_t
    */
   uint64_t getTime() const { return m_time; }
+
   /**
    * @brief Get the Logger content
-   * @return std::string
    */
   std::string getContent() const { return m_ss.str(); }
 
+  /**
+   * @brief Get the Logger
+   */
   std::shared_ptr<Logger> getLogger() const { return m_logger; }
+
+  /**
+   * @brief Get the Logger Level
+   */
   LogLevel::Level getLevel() const { return m_level; }
 
   /**
    * @brief Get the Logger content stream
-   * @return std::stringstream&
    */
   std::stringstream &getSS() { return m_ss; }
 
+  /**
+   * @brief Format write log content
+   */
   void format(const char *fmt, ...);
+
+  /**
+   * @brief Format write log content
+   */
   void format(const char *fmt, va_list al);
 
 private:
-  const char *m_file = nullptr; // file name
-  int32_t m_line = 0;           // file line number
-  uint32_t m_elapse = 0; // The number of milliseconds since the program started
-  uint32_t m_threadId = 0; // thread id
-  uint32_t m_fiberId = 0;  // fiber id
-  uint64_t m_time;         // time stamp
-  std::stringstream m_ss;  // content
+  /// file name
+  const char *m_file = nullptr;
+  /// file line number
+  int32_t m_line = 0;
+  /// The number of milliseconds since the program started
+  uint32_t m_elapse = 0;
+  /// Thread id
+  uint32_t m_threadId = 0;
+  /// Fiber id
+  uint32_t m_fiberId = 0;
+  /// Time stamp
+  uint64_t m_time = 0;
+  /// log content flow
+  std::stringstream m_ss;
 
+  /// Logger
   std::shared_ptr<Logger> m_logger;
+  /// Logger Level
   LogLevel::Level m_level;
 };
 
+/**
+ * @brief LogEvent Wrapper
+ */
 class LogEventWrap {
 public:
+  /**
+   * @brief Construct a new Log Event Wrap
+   * @param  e               Logger reference
+   */
   LogEventWrap(LogEvent::ptr e);
+
+  /**
+   * @brief Destroy the Log Event Wrap
+   */
   ~LogEventWrap();
 
+  /**
+   * @brief Get the Event
+   */
   LogEvent::ptr getEvent() const { return m_event; }
 
+  /**
+   * @brief Get the logger content stream
+   */
   std::stringstream &getSS();
 
 private:
+  /// Log Event
   LogEvent::ptr m_event;
 };
 
@@ -218,7 +250,7 @@ public:
   typedef std::shared_ptr<LogFormatter> ptr;
   /**
    * @brief constructor
-   * @param[in] pattern format pattern
+   * @param pattern format pattern
    * @details
    *  %m message
    *  %p log level
@@ -247,15 +279,16 @@ public:
    */
   std::string format(std::shared_ptr<Logger> logger, LogLevel::Level level,
                      LogEvent::ptr event);
+  std::ostream &format(std::ostream &ofs, std::shared_ptr<Logger> logger,
+                       LogLevel::Level level, LogEvent::ptr event);
 
 public:
   /**
-   * @brief Format log information
+   * @brief Log content item formatting
    */
   class FormatItem {
   public:
     typedef std::shared_ptr<FormatItem> ptr;
-    FormatItem(const std::string &fmt = ""){};
     /**
      * @brief Destroy the Format Item object
      */
@@ -273,13 +306,17 @@ public:
   };
 
   /**
-   * @brief Initialize format pattern
+   * @brief Initialize, parse log patterns
    */
   void init();
 
 private:
-  std::string m_pattern;                // log format pattern
-  std::vector<FormatItem::ptr> m_items; // log format after parsing format
+  /// Log format pattern
+  std::string m_pattern;
+  /// Log Format After Parsing Format
+  std::vector<FormatItem::ptr> m_items;
+  /// whether is error
+  bool m_error = false;
 };
 
 /**
@@ -311,16 +348,24 @@ public:
 
   /**
    * @brief Get the Formatter object
-   * @return LogFormatter::ptr current LogFormatter
    */
   LogFormatter::ptr getFormatter() { return m_formatter; }
 
+  /**
+   * @brief Get the Log Level
+   */
   LogLevel::Level getLevel() const { return m_level; }
+
+  /**
+   * @brief Set the Log Level
+   */
   void setLevel(LogLevel::Level level) { m_level = level; }
 
 protected:
-  LogLevel::Level m_level = LogLevel::Level::DEBUG; // log level
-  LogFormatter::ptr m_formatter;                    // log formater
+  /// Log level
+  LogLevel::Level m_level = LogLevel::Level::DEBUG;
+  /// Log formater
+  LogFormatter::ptr m_formatter;
 };
 
 /**
@@ -349,24 +394,28 @@ public:
    * @param  event            Log event
    */
   void debug(LogEvent::ptr event);
+
   /**
    * @brief Write INFO Log
    * @param  level            Log level
    * @param  event            Log event
    */
   void info(LogEvent::ptr event);
+
   /**
    * @brief Write WARN Log
    * @param  level            Log level
    * @param  event            Log event
    */
   void warn(LogEvent::ptr event);
+
   /**
    * @brief Write ERROR Log
    * @param  level            Log level
    * @param  event            Log event
    */
   void error(LogEvent::ptr event);
+
   /**
    * @brief Write FATAL Log
    * @param  level            Log level
@@ -379,6 +428,7 @@ public:
    * @param  appender         Log target
    */
   void addAppender(LogAppender::ptr appender);
+
   /**
    * @brief Remove Log target
    * @param  appender         Log target
@@ -386,10 +436,15 @@ public:
   void delAppender(LogAppender::ptr appender);
 
   /**
+   * @brief Clear all log targets
+   */
+  void clearAppenders();
+
+  /**
    * @brief Get the Logger Level
-   * @return LogLevel::Level
    */
   LogLevel::Level getLevel() const { return m_level; }
+
   /**
    * @brief Set the Logger Level
    * @param  level            Specifies Log level
@@ -398,19 +453,22 @@ public:
 
   /**
    * @brief Get the Logger name
-   * @return const std::string&
    */
   const std::string &getName() const { return m_name; }
 
 private:
-  std::string m_name;                      // log name
-  LogLevel::Level m_level;                 // log level
-  std::list<LogAppender::ptr> m_appenders; // Appender collection
-  LogFormatter::ptr m_formatter;           // Formatter
+  /// Log name
+  std::string m_name;
+  /// Log level
+  LogLevel::Level m_level;
+  /// Log targets collection
+  std::list<LogAppender::ptr> m_appenders;
+  /// Log formater (unused)
+  LogFormatter::ptr m_formatter;
 };
 
 /**
- * @brief Ouput the log to console
+ * @brief Appender output to console
  */
 class StdoutLogAppender : public LogAppender {
 public:
@@ -421,7 +479,7 @@ public:
 };
 
 /**
- * @brief Output the log to file
+ * @brief Appender output to file
  */
 class FileLogAppender : public LogAppender {
 public:
@@ -431,26 +489,47 @@ public:
   void log(Logger::ptr logger, LogLevel::Level level,
            LogEvent::ptr event) override;
 
-  // Reopen the file, if open successfully return true.
+  /**
+   * @brief Reopen the log file
+   */
   bool reopen();
 
 private:
-  std::string m_filename;     // file path
-  std::ofstream m_filestream; // file stream
+  /// file path
+  std::string m_filename;
+  /// file stream
+  std::ofstream m_filestream;
 };
 
+/**
+ * @brief  Logger Manager
+ */
 class LoggerManager {
 public:
+  /**
+   * @brief Construct a new Logger Manager
+   */
   LoggerManager();
+
+  /**
+   * @brief Get the Logger
+   * @param  name             Specifed logger name
+   */
   Logger::ptr getLogger(const std::string &name);
 
+  /**
+   * @brief Initialise
+   */
   void init();
 
 private:
+  /// Primary logger
   Logger::ptr m_root;
+  /// logger container
   std::map<std::string, Logger::ptr> m_loggers;
 };
 
+/// Logger management class singleton pattern
 typedef apexstorm::Singleton<LoggerManager> loggerMgr;
 
 } // namespace apexstorm

@@ -11,8 +11,14 @@
 
 namespace apexstorm {
 
+/**
+ * @brief Returns current thread id
+ */
 pid_t GetThreadId();
 
+/**
+ * @brief Returns current fiber id
+ */
 uint32_t GetFiberId();
 
 } // namespace apexstorm
