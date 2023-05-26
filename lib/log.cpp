@@ -38,7 +38,7 @@ const char *LogLevel::ToString(LogLevel::Level level) {
 // FormatItems ----
 class MessageFormatItem : public LogFormatter::FormatItem {
 public:
-  MessageFormatItem(const std::string &fmt) : LogFormatter::FormatItem(fmt) {}
+  MessageFormatItem(const std::string &fmt) {}
   void format(std::ostream &os, std::shared_ptr<Logger> logger,
               LogLevel::Level level, LogEvent::ptr event) override {
     os << event->getContent();
@@ -114,7 +114,7 @@ private:
 
 class FilenameFormatItem : public LogFormatter::FormatItem {
 public:
-  FilenameFormatItem(const std::string &fmt) : LogFormatter::FormatItem(fmt) {}
+  FilenameFormatItem(const std::string &fmt) {}
   void format(std::ostream &os, std::shared_ptr<Logger> logger,
               LogLevel::Level level, LogEvent::ptr event) override {
     os << event->getFile();
@@ -123,7 +123,7 @@ public:
 
 class LineFormatItem : public LogFormatter::FormatItem {
 public:
-  LineFormatItem(const std::string &fmt) : LogFormatter::FormatItem(fmt) {}
+  LineFormatItem(const std::string &fmt) {}
   void format(std::ostream &os, std::shared_ptr<Logger> logger,
               LogLevel::Level level, LogEvent::ptr event) override {
     os << event->getLine();
@@ -132,7 +132,7 @@ public:
 
 class NewLineFormatItem : public LogFormatter::FormatItem {
 public:
-  NewLineFormatItem(const std::string &fmt) : LogFormatter::FormatItem(fmt) {}
+  NewLineFormatItem(const std::string &fmt) {}
   void format(std::ostream &os, std::shared_ptr<Logger> logger,
               LogLevel::Level level, LogEvent::ptr event) override {
     os << std::endl;
@@ -141,8 +141,7 @@ public:
 
 class StringFormatItem : public LogFormatter::FormatItem {
 public:
-  StringFormatItem(const std::string &str)
-      : LogFormatter::FormatItem(str), m_string(str) {}
+  StringFormatItem(const std::string &str) : m_string(str) {}
   void format(std::ostream &os, std::shared_ptr<Logger> logger,
               LogLevel::Level level, LogEvent::ptr event) override {
     os << m_string;
