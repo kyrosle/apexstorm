@@ -1,1 +1,0 @@
-set debuginfod enable on

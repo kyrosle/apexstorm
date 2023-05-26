@@ -9,6 +9,6 @@ target("apexstorm")
   set_kind("binary")
   add_files("src/*.cpp")
 
-target("test")
+target("log_test")
   set_kind("binary")
-  add_files("tests/*.cpp")
+  add_files("tests/log_test.cpp")
