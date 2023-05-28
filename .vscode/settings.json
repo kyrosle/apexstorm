@@ -3,7 +3,9 @@
     "apexstorm",
     "Appender",
     "appenders",
+    "datas",
     "filestream",
+    "tparam",
     "xmake"
-  ]
+  ],
 }

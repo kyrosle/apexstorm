@@ -7,9 +7,9 @@ namespace apexstorm {
 
 /**
  * @brief Singleton pattern encapsulation class
- * @tparam T Type
- * @tparam X In order to create tags corresponding to multiple instances
- * @tparam N Create multiple instance indexes with the same Tag
+ * @param T Type
+ * @param X In order to create tags corresponding to multiple instances
+ * @param N Create multiple instance indexes with the same Tag
  */
 template <class T, class X = void, int N = 0> class Singleton {
 public:
@@ -24,9 +24,9 @@ public:
 
 /**
  * @brief Singleton pattern smart pointer encapsulation class
- * @tparam T Type
- * @tparam X In order to create tags corresponding to multiple instances
- * @tparam N Create multiple instance indexes with the same Tag
+ * @param T Type
+ * @param X In order to create tags corresponding to multiple instances
+ * @param N Create multiple instance indexes with the same Tag
  */
 template <class T, class X = void, int N = 0> class SingletonPtr {
 public:

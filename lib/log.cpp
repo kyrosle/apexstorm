@@ -56,7 +56,7 @@ public:
 
 class ElapseFormatItem : public LogFormatter::FormatItem {
 public:
-  ElapseFormatItem(const std::string &fmtj = "") {}
+  ElapseFormatItem(const std::string &fmt = "") {}
   void format(std::ostream &os, std::shared_ptr<Logger> logger,
               LogLevel::Level level, LogEvent::ptr event) override {
     os << event->getElapse();

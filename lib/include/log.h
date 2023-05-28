@@ -72,6 +72,8 @@
   APEXSTORM_LOG_FMT_LEVEL(logger, apexstorm::LogLevel::Level::FATAL, fmt,      \
                           __VA_ARGS__)
 
+#define APEXSTORM_LOG_ROOT() apexstorm::LoggerMgr::GetInstance()->getRoot()
+
 namespace apexstorm {
 
 class Logger;
@@ -522,6 +524,8 @@ public:
    */
   void init();
 
+  Logger::ptr getRoot() const { return m_root; }
+
 private:
   /// Primary logger
   Logger::ptr m_root;
@@ -530,7 +534,7 @@ private:
 };
 
 /// Logger management class singleton pattern
-typedef apexstorm::Singleton<LoggerManager> loggerMgr;
+typedef apexstorm::Singleton<LoggerManager> LoggerMgr;
 
 } // namespace apexstorm
 

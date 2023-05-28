@@ -28,6 +28,6 @@ int main() {
   APEXSTORM_LOG_FMT_ERROR(logger, "Test Logger ERROR %s", "!TEST!4");
   APEXSTORM_LOG_FMT_FATAL(logger, "Test Logger FATAL %s", "!TEST!5");
 
-  auto l = apexstorm::loggerMgr::GetInstance()->getLogger("xx");
+  auto l = apexstorm::LoggerMgr::GetInstance()->getLogger("xx");
   APEXSTORM_LOG_INFO(l) << "xxx";
 }
