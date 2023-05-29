@@ -1,4 +1,5 @@
 add_rules("mode.debug", "mode.release")
+add_cxflags("-fmacro-prefix-map=$pwd/=.")
 
 -- add auto create `complie_commands.json` file in build/
 -- so that the clangd language server can provide correct instructions.

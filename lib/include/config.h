@@ -2,18 +2,22 @@
 #define __APEXSTORM_CONFIG_H__
 
 #include "log.h"
+#include "util.h"
 #include "yaml-cpp/node/node.h"
 #include "yaml-cpp/node/parse.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <cctype>
 #include <cstddef>
+#include <cstdint>
 #include <exception>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
+#include <sys/types.h>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -23,25 +27,55 @@
 
 namespace apexstorm {
 
+/// yaml field valid char set:
 #define VALID_CHAR "abcdefghikjlmnopqrstuvwxyz._0123456789"
 
+/**
+ * @brief Base class for configuration variables
+ */
 class ConfigVarBase {
 public:
   typedef std::shared_ptr<ConfigVarBase> ptr;
 
+  /**
+   * @brief Constructor
+   * @param[in] name config name[0-9a-z_.]
+   * @param[in] description config description
+   */
   ConfigVarBase(const std::string &name, const std::string &description = "")
       : m_name(name), m_description(description) {
+    // transform name into lower chars.
     std::transform(m_name.begin(), m_name.end(), m_name.begin(), ::tolower);
   }
 
+  /**
+   * @brief Destroy the Config Var Base object
+   */
   virtual ~ConfigVarBase();
 
+  /**
+   * @brief Get the config name
+   */
   const std::string &getName() const { return m_name; }
+
+  /**
+   * @brief Get the config description
+   */
   const std::string &getDescription() const { return m_description; }
 
+  /**
+   * @brief Convert into string
+   */
   virtual std::string toString() = 0;
+
+  /**
+   * @brief Initialize value from string
+   */
   virtual bool fromString(const std::string &val) = 0;
 
+  /**
+   * @brief Returns the type name of the configuration parameter value
+   */
   virtual std::string getTypeName() const = 0;
 
 protected:
@@ -285,11 +319,23 @@ template <class T, class FromStr = LexicalCast<std::string, T>,
 class ConfigVar : public ConfigVarBase {
 public:
   typedef std::shared_ptr<ConfigVar> ptr;
+  typedef std::function<void(const T &old_value, const T &new_value)>
+      on_change_callback;
 
+  /**
+   * @brief Constructor
+   * @param  name             configuration name
+   * @param  default_value    configuration default value
+   * @param  description      configuration description
+   */
   ConfigVar(const std::string &name, const T &default_value,
             const std::string &description = "")
       : ConfigVarBase(name, description), m_val(default_value) {}
 
+  /**
+   * @brief Convert configuration value into YAML string
+   * @exception if converting meets error, throw exception
+   */
   std::string toString() override {
     try {
       // return boost::lexical_cast<std::string>(m_val);
@@ -302,6 +348,10 @@ public:
     return "";
   }
 
+  /**
+   * @brief Convert YAML string into configuration value
+   * @exception if converting meets error, throw exception
+   */
   bool fromString(const std::string &val) override {
     try {
       // m_val = boost::lexical_cast<T>(val);
@@ -315,25 +365,86 @@ public:
     return false;
   }
 
+  /**
+   * @brief Get the Value
+   */
   const T getValue() const { return m_val; }
-  void setValue(const T &v) { m_val = v; }
+
+  /**
+   * @brief Set the Value, if the value has changed, notify the callback
+   * listener.
+   */
+  void setValue(const T &v) {
+    if (v == m_val) {
+      return;
+    }
+    for (auto &i : m_callbacks) {
+      i.second(m_val, v);
+    }
+    m_val = v;
+  }
+
+  /**
+   * @brief Returns the type name of the parameter value
+   */
   std::string getTypeName() const override { return typeid(T).name(); }
+
+  /**
+   * @brief add callback listener
+   * @param  key              the unique key, used to remove callback function
+   * @param  cb               callback function
+   */
+  void addListener(uint64_t key, on_change_callback cb) {
+    m_callbacks[key] = cb;
+  }
+
+  /**
+   * @brief remove callback listener
+   * @param  key              the unique key of callback function
+   */
+  void delListener(uint64_t key) { m_callbacks.erase(key); }
+
+  /**
+   * @brief clear all listeners
+   */
+  void clearListener() { m_callbacks.clear(); }
+
+  /**
+   * @brief Get the Listener
+   * @param  key              the unqiue key of callback function
+   * @return on_change_callback
+   */
+  on_change_callback getListener(uint64_t key) {
+    auto it = m_callbacks.find(key);
+    return it == m_callbacks.end() ? nullptr : it->second;
+  }
 
 private:
   T m_val;
+  /// record callbacks, uint64_t unique key(hash)
+  std::map<uint64_t, on_change_callback> m_callbacks;
 };
 
+/**
+ * @brief ConfigVar Manager
+ */
 class Config {
 public:
   typedef std::map<std::string, ConfigVarBase::ptr> ConfigVarMap;
 
+  /**
+   * @brief Get/Create the correspond configuration name
+   * @param  name             configuration name
+   * @param  default_value    configuration default name
+   * @param  description      configuration description
+   */
   template <class T>
   static typename ConfigVar<T>::ptr
   Lookup(const std::string &name, const T &default_value,
          const std::string &description = "") {
 
-    auto it = s_datas.find(name);
-    if (it != s_datas.end()) {
+    auto it = GetDatas().find(name);
+    if (it != GetDatas().end()) {
       auto tmp = std::dynamic_pointer_cast<ConfigVar<T>>(it->second);
       if (tmp) {
         APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT())
@@ -357,26 +468,42 @@ public:
     typename ConfigVar<T>::ptr v(
         new ConfigVar<T>(name, default_value, description));
 
-    s_datas[name] = v;
+    GetDatas()[name] = v;
 
     return v;
   }
 
+  /**
+   * @brief search configuration
+   * @param  name             configurable name
+   */
   template <class T>
   static typename ConfigVar<T>::ptr Lookup(const std::string &name) {
-    auto it = s_datas.find(name);
-    if (it == s_datas.end()) {
+    auto it = GetDatas().find(name);
+    if (it == GetDatas().end()) {
       return nullptr;
     }
     return std::dynamic_pointer_cast<ConfigVar<T>>(it->second);
   }
 
+  /**
+   * @brief load config from structure parsed by yaml-cpp
+   */
   static void LoadFromYaml(const YAML::Node &root);
 
+  /**
+   * @brief search config by configuration name
+   */
   static ConfigVarBase::ptr LookupBase(const std::string &name);
 
 private:
-  static ConfigVarMap s_datas;
+  /**
+   * @brief Return all configurations
+   */
+  static ConfigVarMap &GetDatas() {
+    static ConfigVarMap s_datas;
+    return s_datas;
+  }
 };
 
 } // namespace apexstorm

@@ -12,6 +12,12 @@
 #include <vector>
 #include <yaml-cpp/yaml.h>
 
+// switching to enable test code
+// #define TEST_CONFIG
+
+#ifdef TEST_CONFIG
+
+// Inital variables in config ----
 apexstorm::ConfigVar<int>::ptr g_int_value_config =
     apexstorm::Config::Lookup("system.port", (int)8080, "system port");
 
@@ -47,6 +53,9 @@ apexstorm::ConfigVar<std::unordered_map<std::string, int>>::ptr
         "system.str_int_umap", std::unordered_map<std::string, int>{{"k", 2}},
         "system str int umap");
 
+// ---- Inital variables in config
+
+/// recursive printing yaml node
 void print_yaml(const YAML::Node &node, int level) {
   if (node.IsScalar()) {
     APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT())
@@ -75,6 +84,7 @@ void print_yaml(const YAML::Node &node, int level) {
   }
 }
 
+/// test yaml config loading
 void test_yaml() {
   YAML::Node root =
       YAML::LoadFile("/home/kyros/WorkStation/CPP/apexstorm/conf/log.yml");
@@ -84,6 +94,7 @@ void test_yaml() {
   // APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT()) << root;
 }
 
+/// test yaml config variable changed
 void test_config() {
   APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT())
       << "before: " << g_int_value_config->getValue();
@@ -119,7 +130,7 @@ void test_config() {
   XX_M(g_int_umap_value_config, str_int_umap, before);
 
   YAML::Node root =
-      YAML::LoadFile("/home/kyros/WorkStation/CPP/apexstorm/conf/log.yml");
+      YAML::LoadFile("/home/kyros/WorkStation/CPP/apexstorm/conf/test.yml");
   apexstorm::Config::LoadFromYaml(root);
 
   APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT())
@@ -135,6 +146,7 @@ void test_config() {
   XX_M(g_int_umap_value_config, int_umap, after);
 }
 
+// support self defined data structures.
 class Person {
 public:
   std::string m_name;
@@ -147,8 +159,14 @@ public:
        << "]";
     return ss.str();
   }
+
+  // here: std::map required
+  bool operator==(const Person &rhs) const {
+    return m_name == rhs.m_name && m_age == rhs.m_age && m_sex == rhs.m_sex;
+  }
 };
 
+/// serialization and deserialization
 namespace apexstorm {
 
 template <> class LexicalCast<std::string, Person> {
@@ -207,6 +225,13 @@ void test_class() {
         << prefix << ": size=" << m.size();                                    \
   }
 
+  g_person->addListener(10,
+                        [](const Person &old_value, const Person &new_value) {
+                          APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT())
+                              << "old_value=" << old_value.toString()
+                              << " new_value=" << new_value.toString();
+                        });
+
   XX_PM(g_person_map, "class.map before");
 
   APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT())
@@ -226,9 +251,26 @@ void test_class() {
   APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT())
       << "after: " << g_person_vec_map->toString();
 }
+#endif
+
+/// test log config loading and exporting
+void test_log() {
+  static apexstorm::Logger::ptr system_log = APEXSTORM_LOG_NAME("system");
+  APEXSTORM_LOG_INFO(system_log) << "hello system" << std::endl;
+  std::cout << apexstorm::LoggerMgr::GetInstance()->toYamlString() << std::endl;
+  YAML::Node root =
+      YAML::LoadFile("/home/kyros/WorkStation/CPP/apexstorm/conf/log.yml");
+  apexstorm::Config::LoadFromYaml(root);
+  std::cout << "=========================" << std::endl;
+  std::cout << apexstorm::LoggerMgr::GetInstance()->toYamlString() << std::endl;
+  APEXSTORM_LOG_INFO(system_log) << "hello system" << std::endl;
+}
 
 int main() {
-  // test_yaml();
-  // test_config();
+#ifdef TEST_CONFIG
+  test_yaml();
+  test_config();
   test_class();
+#endif
+  test_log();
 }

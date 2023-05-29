@@ -1,0 +1,47 @@
+system:
+  port: 9900
+  value: 15
+  int_vec:
+    - 10
+    - 20
+  int_list: [20, 30, 40]
+  int_set: [20, 30, 60, 20]
+  int_uset: [20, 30, 60, 20]
+  str_int_map:
+    k2: 20
+    k: 30
+    k3: 30
+  str_int_umap:
+    k2: 20
+    k: 30
+    k3: 30
+
+class:
+  person:
+    name: kyros
+    age: 22
+    sex: true
+  map:
+    kyros1:
+      name: kyros01
+      age: 23
+      sex: true
+    kyros2:
+      name: kyros02
+      age: 24
+      sex: false
+  vec_map:
+    person1:
+      - name: kyros01
+        age: 23
+        sex: true
+      - name: kyros02
+        age: 24
+        sex: false
+    person2:
+      - name: kyros01
+        age: 23
+        sex: true
+      - name: kyros02
+        age: 24
+        sex: false

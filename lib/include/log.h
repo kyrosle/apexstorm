@@ -72,7 +72,12 @@
   APEXSTORM_LOG_FMT_LEVEL(logger, apexstorm::LogLevel::Level::FATAL, fmt,      \
                           __VA_ARGS__)
 
+// get the root logger
 #define APEXSTORM_LOG_ROOT() apexstorm::LoggerMgr::GetInstance()->getRoot()
+
+// get the logger through logger name
+#define APEXSTORM_LOG_NAME(name)                                               \
+  apexstorm::LoggerMgr::GetInstance()->getLogger(name)
 
 namespace apexstorm {
 
@@ -85,6 +90,8 @@ class LoggerManager;
 class LogLevel {
 public:
   enum class Level : char {
+    /// Unknown level
+    UNKNOWN,
     /// Debug level
     DEBUG,
     /// Info level
@@ -106,7 +113,7 @@ public:
    * @brief Convert text to log level
    * @param  str          LogLevel text
    */
-  static LogLevel FromString(const std::string str);
+  static LogLevel::Level FromString(const std::string &str);
 };
 
 /**
@@ -312,12 +319,22 @@ public:
    */
   void init();
 
+  /**
+   * @brief Return the Format whether successfully parsed
+   */
+  bool isError() { return m_error; }
+
+  /**
+   * @brief Return the format pattern
+   */
+  const std::string getPattern() { return m_pattern; }
+
 private:
   /// Log format pattern
   std::string m_pattern;
   /// Log Format After Parsing Format
   std::vector<FormatItem::ptr> m_items;
-  /// whether is error
+  /// whether parsing result is error
   bool m_error = false;
 };
 
@@ -325,6 +342,8 @@ private:
  * @brief  Log output target
  */
 class LogAppender {
+  friend class Logger;
+
 public:
   typedef std::shared_ptr<LogAppender> ptr;
 
@@ -346,7 +365,7 @@ public:
    * @brief Set the Formatter object
    * @param  val              specifies LogFormatter
    */
-  void setFormatter(LogFormatter::ptr val) { m_formatter = val; }
+  void setFormatter(LogFormatter::ptr val);
 
   /**
    * @brief Get the Formatter object
@@ -363,17 +382,26 @@ public:
    */
   void setLevel(LogLevel::Level level) { m_level = level; }
 
+  /**
+   * @brief Convert LogAppender to YAML string
+   */
+  virtual std::string toYamlString() = 0;
+
 protected:
   /// Log level
   LogLevel::Level m_level = LogLevel::Level::DEBUG;
   /// Log formater
   LogFormatter::ptr m_formatter;
+  /// dose appender have formatter
+  bool m_hasFormatter = false;
 };
 
 /**
  * @brief Logger
  */
 class Logger : public std::enable_shared_from_this<Logger> {
+  friend class LoggerManager;
+
 public:
   typedef std::shared_ptr<Logger> ptr;
 
@@ -458,6 +486,22 @@ public:
    */
   const std::string &getName() const { return m_name; }
 
+  /**
+   * @brief Set the Formatter, also setting status: has_formater
+   */
+  void setFormatter(LogFormatter::ptr val);
+  void setFormatter(const std::string &val);
+
+  /**
+   * @brief Get the Formatter
+   */
+  LogFormatter::ptr getFormatter();
+
+  /**
+   * @brief Convert Logger into YAML string
+   */
+  std::string toYamlString();
+
 private:
   /// Log name
   std::string m_name;
@@ -467,6 +511,8 @@ private:
   std::list<LogAppender::ptr> m_appenders;
   /// Log formater (unused)
   LogFormatter::ptr m_formatter;
+  /// Refer to root logger
+  Logger::ptr m_root;
 };
 
 /**
@@ -478,6 +524,8 @@ public:
 
   void log(Logger::ptr logger, LogLevel::Level level,
            LogEvent::ptr event) override;
+
+  std::string toYamlString() override;
 };
 
 /**
@@ -495,6 +543,8 @@ public:
    * @brief Reopen the log file
    */
   bool reopen();
+
+  std::string toYamlString() override;
 
 private:
   /// file path
@@ -524,7 +574,15 @@ public:
    */
   void init();
 
+  /**
+   * @brief Get the root logger
+   */
   Logger::ptr getRoot() const { return m_root; }
+
+  /**
+   * @brief convert all loggers into YAML string
+   */
+  std::string toYamlString();
 
 private:
   /// Primary logger

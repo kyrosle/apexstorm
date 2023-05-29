@@ -17,13 +17,13 @@ namespace apexstorm {
 /**
  * @brief Static Config Collection
  */
-Config::ConfigVarMap Config::s_datas;
+// Config::ConfigVarMap Config::s_datas;
 
 ConfigVarBase::~ConfigVarBase() {}
 
 ConfigVarBase::ptr Config::LookupBase(const std::string &name) {
-  auto it = s_datas.find(name);
-  return it == s_datas.end() ? nullptr : it->second;
+  auto it = GetDatas().find(name);
+  return it == GetDatas().end() ? nullptr : it->second;
 }
 
 // "A.B", 10
@@ -31,16 +31,26 @@ ConfigVarBase::ptr Config::LookupBase(const std::string &name) {
 //  B: 10
 //  C: str
 
+/**
+ * @brief
+ * @param[in]  prefix           prefix yaml path
+ * @param[in]  node             YAML::Node structure
+ * @param[out] output           identifier-node list collection
+ */
 static void
 ListAllMember(const std::string &prefix, const YAML::Node &node,
               std::list<std::pair<std::string, const YAML::Node>> &output) {
+  // check yaml field invalidate
   if (prefix.find_first_not_of(VALID_CHAR) != std::string::npos) {
     APEXSTORM_LOG_ERROR(APEXSTORM_LOG_ROOT())
         << "Config invalid name: " << prefix << " : " << node;
   }
+
   output.push_back(std::make_pair(prefix, node));
+  // recursively matching
   if (node.IsMap()) {
     for (auto it = node.begin(); it != node.end(); ++it) {
+      // append . -> prefix.first
       ListAllMember(prefix.empty() ? it->first.Scalar()
                                    : prefix + "." + it->first.Scalar(),
                     it->second, output);
@@ -62,6 +72,7 @@ void Config::LoadFromYaml(const YAML::Node &root) {
     ConfigVarBase::ptr var = LookupBase(key);
 
     if (var) {
+      // LexicalCast parsing
       if (i.second.IsScalar()) {
         var->fromString(i.second.Scalar());
       } else {
