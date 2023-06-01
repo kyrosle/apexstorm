@@ -258,6 +258,24 @@ classDiagram
   ConfigVar --|> ConfigVarBase
 ```
 
+## Thread Related Encapsulation
+
+Thread, Mutex encapsulation:
+
+- Mutex
+- SpinLock
+- CASLock
+- RWMutex
+- Semaphore
+
+integrate with log
+
+logger, logAppender
+
+using SpinLock instead of Mutex
+
+write file periodic reopen(should fixed).
+
 ## Coroutine Library Encapsulation
 
 ## Socket Library

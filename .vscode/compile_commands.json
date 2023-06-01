@@ -16,6 +16,11 @@
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-DNDEBUG", "-o", "build/.objs/apexstorm/linux/x86_64/release/lib/thread.cpp.o", "lib/thread.cpp"],
+  "file": "lib/thread.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
   "arguments": ["/usr/bin/gcc", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-DNDEBUG", "-o", "build/.objs/apexstorm/linux/x86_64/release/src/main.cpp.o", "src/main.cpp"],
   "file": "src/main.cpp"
 },
@@ -36,8 +41,38 @@
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-DNDEBUG", "-o", "build/.objs/test_log/linux/x86_64/release/lib/thread.cpp.o", "lib/thread.cpp"],
+  "file": "lib/thread.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
   "arguments": ["/usr/bin/gcc", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-DNDEBUG", "-o", "build/.objs/test_log/linux/x86_64/release/tests/test_log.cpp.o", "tests/test_log.cpp"],
   "file": "tests/test_log.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-DNDEBUG", "-o", "build/.objs/test_thread/linux/x86_64/release/lib/log.cpp.o", "lib/log.cpp"],
+  "file": "lib/log.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-DNDEBUG", "-o", "build/.objs/test_thread/linux/x86_64/release/lib/util.cpp.o", "lib/util.cpp"],
+  "file": "lib/util.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-DNDEBUG", "-o", "build/.objs/test_thread/linux/x86_64/release/lib/config.cpp.o", "lib/config.cpp"],
+  "file": "lib/config.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-DNDEBUG", "-o", "build/.objs/test_thread/linux/x86_64/release/lib/thread.cpp.o", "lib/thread.cpp"],
+  "file": "lib/thread.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-DNDEBUG", "-o", "build/.objs/test_thread/linux/x86_64/release/tests/test_thread.cpp.o", "tests/test_thread.cpp"],
+  "file": "tests/test_thread.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
@@ -53,6 +88,11 @@
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
   "arguments": ["/usr/bin/gcc", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-DNDEBUG", "-o", "build/.objs/test_config/linux/x86_64/release/lib/config.cpp.o", "lib/config.cpp"],
   "file": "lib/config.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-DNDEBUG", "-o", "build/.objs/test_config/linux/x86_64/release/lib/thread.cpp.o", "lib/thread.cpp"],
+  "file": "lib/thread.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",

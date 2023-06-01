@@ -1,7 +1,18 @@
+/**
+ * @file config.h
+ * @brief Configuration module.
+ * @author kyros (le@90e.com)
+ * @version 1.0
+ * @date 2023-06-01
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
 #ifndef __APEXSTORM_CONFIG_H__
 #define __APEXSTORM_CONFIG_H__
 
 #include "log.h"
+#include "thread.h"
 #include "util.h"
 #include "yaml-cpp/node/node.h"
 #include "yaml-cpp/node/parse.h"
@@ -15,6 +26,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <pthread.h>
 #include <sstream>
 #include <stdexcept>
 #include <sys/types.h>
@@ -27,67 +39,50 @@
 
 namespace apexstorm {
 
-/// yaml field valid char set:
+// yaml field valid char set:
 #define VALID_CHAR "abcdefghikjlmnopqrstuvwxyz._0123456789"
 
-/**
- * @brief Base class for configuration variables
- */
+// Base class for configuration variables
 class ConfigVarBase {
 public:
   typedef std::shared_ptr<ConfigVarBase> ptr;
 
-  /**
-   * @brief Constructor
-   * @param[in] name config name[0-9a-z_.]
-   * @param[in] description config description
-   */
+  // Constructor
+  // @param[in] name config name[0-9a-z_.]
+  // @param[in] description config description
   ConfigVarBase(const std::string &name, const std::string &description = "")
       : m_name(name), m_description(description) {
     // transform name into lower chars.
     std::transform(m_name.begin(), m_name.end(), m_name.begin(), ::tolower);
   }
 
-  /**
-   * @brief Destroy the Config Var Base object
-   */
+  // Destroy the Config Var Base object
   virtual ~ConfigVarBase();
 
-  /**
-   * @brief Get the config name
-   */
+  // Get the Name object
   const std::string &getName() const { return m_name; }
 
-  /**
-   * @brief Get the config description
-   */
+  // Get the config description
   const std::string &getDescription() const { return m_description; }
 
-  /**
-   * @brief Convert into string
-   */
+  // Convert into string
   virtual std::string toString() = 0;
 
-  /**
-   * @brief Initialize value from string
-   */
+  // Initialize value from string
   virtual bool fromString(const std::string &val) = 0;
 
-  /**
-   * @brief Returns the type name of the configuration parameter value
-   */
+  // Returns the type name of the configuration parameter value
   virtual std::string getTypeName() const = 0;
 
 protected:
+  // configure variables name
   std::string m_name;
+  // configure variables description
   std::string m_description;
 };
 
-/**
- * @brief
- * @tparam F from_type
- * @tparam T to_type
- */
+// @tparam F from_type
+// @tparam T to_type
 template <class F, class T> class LexicalCast {
 public:
   T operator()(const F &v) { return boost::lexical_cast<T>(v); }
@@ -309,36 +304,32 @@ public:
 };
 // Container deviation specialization: std::unordered_map<std::string, T> ----
 
-/**
- * @brief
- * @tparam FromStr: T           operator(const std::string&)
- * @tparam ToStr  : std::string operator(const &T)
- */
+// Configuration variables, using RWLock.
+// @tparam FromStr: T           operator(const std::string&)
+// @tparam ToStr  : std::string operator(const &T)
 template <class T, class FromStr = LexicalCast<std::string, T>,
           class ToStr = LexicalCast<T, std::string>>
 class ConfigVar : public ConfigVarBase {
 public:
+  typedef RWMutex RWMutexType;
   typedef std::shared_ptr<ConfigVar> ptr;
   typedef std::function<void(const T &old_value, const T &new_value)>
       on_change_callback;
 
-  /**
-   * @brief Constructor
-   * @param  name             configuration name
-   * @param  default_value    configuration default value
-   * @param  description      configuration description
-   */
+  // Constructor
+  // @param  name             configuration name
+  // @param  default_value    configuration default value
+  // @param  description      configuration description
   ConfigVar(const std::string &name, const T &default_value,
             const std::string &description = "")
       : ConfigVarBase(name, description), m_val(default_value) {}
 
-  /**
-   * @brief Convert configuration value into YAML string
-   * @exception if converting meets error, throw exception
-   */
+  // Convert configuration value into YAML string (thread safety).
+  // @exception if converting meets error, throw exception
   std::string toString() override {
     try {
       // return boost::lexical_cast<std::string>(m_val);
+      RWMutexType::ReadLock lock(m_mutex);
       return ToStr()(m_val);
     } catch (std::exception &e) {
       APEXSTORM_LOG_ERROR(APEXSTORM_LOG_ROOT())
@@ -348,10 +339,8 @@ public:
     return "";
   }
 
-  /**
-   * @brief Convert YAML string into configuration value
-   * @exception if converting meets error, throw exception
-   */
+  // Convert YAML string into configuration value.
+  // @exception if converting meets error, throw exception
   bool fromString(const std::string &val) override {
     try {
       // m_val = boost::lexical_cast<T>(val);
@@ -365,84 +354,88 @@ public:
     return false;
   }
 
-  /**
-   * @brief Get the Value
-   */
-  const T getValue() const { return m_val; }
+  // Get the Value (thread safety).
+  const T getValue() {
+    RWMutexType::ReadLock lock(m_mutex);
+    return m_val;
+  }
 
-  /**
-   * @brief Set the Value, if the value has changed, notify the callback
-   * listener.
-   */
+  // Set the Value, if the value has changed, notify the callback
+  // listener (thread safety).
   void setValue(const T &v) {
-    if (v == m_val) {
-      return;
+    {
+      RWMutexType::ReadLock lock(m_mutex);
+      if (v == m_val) {
+        return;
+      }
+      for (auto &i : m_callbacks) {
+        i.second(m_val, v);
+      }
     }
-    for (auto &i : m_callbacks) {
-      i.second(m_val, v);
-    }
+
+    RWMutexType::WriteLock lock(m_mutex);
     m_val = v;
   }
 
-  /**
-   * @brief Returns the type name of the parameter value
-   */
+  // Returns the type name of the parameter value.
   std::string getTypeName() const override { return typeid(T).name(); }
 
-  /**
-   * @brief add callback listener
-   * @param  key              the unique key, used to remove callback function
-   * @param  cb               callback function
-   */
-  void addListener(uint64_t key, on_change_callback cb) {
-    m_callbacks[key] = cb;
+  // add callback listener (thread safety).
+  // @param  key              the unique key, used to remove callback function
+  // @param  cb               callback function
+  u_int64_t addListener(on_change_callback cb) {
+    static uint64_t s_fun_id = 0;
+    RWMutexType::WriteLock lock(m_mutex);
+    m_callbacks[++s_fun_id] = cb;
+    return s_fun_id;
   }
 
-  /**
-   * @brief remove callback listener
-   * @param  key              the unique key of callback function
-   */
-  void delListener(uint64_t key) { m_callbacks.erase(key); }
+  // Remove callback listener (thread safety).
+  // @param  key              the unique key of callback function
+  void delListener(uint64_t key) {
+    RWMutexType::WriteLock lock(m_mutex);
+    m_callbacks.erase(key);
+  }
 
-  /**
-   * @brief clear all listeners
-   */
-  void clearListener() { m_callbacks.clear(); }
+  // Clear all listeners (thread safety).
+  void clearListener() {
+    RWMutexType::WriteLock lock(m_mutex);
+    m_callbacks.clear();
+  }
 
-  /**
-   * @brief Get the Listener
-   * @param  key              the unqiue key of callback function
-   * @return on_change_callback
-   */
+  // Get the Listener (thread safety).
+  // @param  key              the unique key of callback function
+  // @return on_change_callback
   on_change_callback getListener(uint64_t key) {
+    RWMutexType::ReadLock lock(m_mutex);
     auto it = m_callbacks.find(key);
     return it == m_callbacks.end() ? nullptr : it->second;
   }
 
 private:
   T m_val;
-  /// record callbacks, uint64_t unique key(hash)
+  // record callbacks, uint64_t unique key(hash)
   std::map<uint64_t, on_change_callback> m_callbacks;
+  // RWMutex structure
+  RWMutexType m_mutex;
 };
 
-/**
- * @brief ConfigVar Manager
- */
+// ConfigVar Manager, using RWMutex.
 class Config {
 public:
   typedef std::map<std::string, ConfigVarBase::ptr> ConfigVarMap;
+  typedef RWMutex RWMutexType;
 
-  /**
-   * @brief Get/Create the correspond configuration name
-   * @param  name             configuration name
-   * @param  default_value    configuration default name
-   * @param  description      configuration description
-   */
+  // Get/Create the correspond configuration name (thread safety).
+  // @param  name             configuration name
+  // @param  default_value    configuration default name
+  // @param  description      configuration description
   template <class T>
   static typename ConfigVar<T>::ptr
   Lookup(const std::string &name, const T &default_value,
          const std::string &description = "") {
 
+    RWMutexType::WriteLock lock(GetMutex());
     auto it = GetDatas().find(name);
     if (it != GetDatas().end()) {
       auto tmp = std::dynamic_pointer_cast<ConfigVar<T>>(it->second);
@@ -473,12 +466,11 @@ public:
     return v;
   }
 
-  /**
-   * @brief search configuration
-   * @param  name             configurable name
-   */
+  // Search configuration (thread safety).
+  // @param  name             configurable name
   template <class T>
   static typename ConfigVar<T>::ptr Lookup(const std::string &name) {
+    RWMutexType::ReadLock lock(GetMutex());
     auto it = GetDatas().find(name);
     if (it == GetDatas().end()) {
       return nullptr;
@@ -486,23 +478,27 @@ public:
     return std::dynamic_pointer_cast<ConfigVar<T>>(it->second);
   }
 
-  /**
-   * @brief load config from structure parsed by yaml-cpp
-   */
+  // load config from structure parsed by yaml-cpp
+
   static void LoadFromYaml(const YAML::Node &root);
 
-  /**
-   * @brief search config by configuration name
-   */
+  // search config by configuration name
+
   static ConfigVarBase::ptr LookupBase(const std::string &name);
 
+  static void Visit(std::function<void(ConfigVarBase::ptr)> cb);
+
 private:
-  /**
-   * @brief Return all configurations
-   */
+  // Return all configurations.
   static ConfigVarMap &GetDatas() {
     static ConfigVarMap s_datas;
     return s_datas;
+  }
+
+  // Return the rwlock.
+  static RWMutexType &GetMutex() {
+    static RWMutexType s_mutex;
+    return s_mutex;
   }
 };
 

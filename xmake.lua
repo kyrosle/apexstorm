@@ -31,3 +31,8 @@ target("test_log")
 target("test_config")
   set_kind("binary")
   add_files("tests/test_config.cpp")
+
+-- test thread target
+target("test_thread")
+  set_kind("binary")
+  add_files("tests/test_thread.cpp")

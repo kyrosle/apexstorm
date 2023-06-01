@@ -1,3 +1,13 @@
+/**
+ * @file test_config.cpp
+ * @brief testing configuration module.
+ * @author kyros (le@90e.com)
+ * @version 1.0
+ * @date 2023-06-01
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
 #include "../lib/include/config.h"
 #include "../lib/include/log.h"
 #include "yaml-cpp/node/node.h"
@@ -55,7 +65,7 @@ apexstorm::ConfigVar<std::unordered_map<std::string, int>>::ptr
 
 // ---- Inital variables in config
 
-/// recursive printing yaml node
+// recursive printing yaml node
 void print_yaml(const YAML::Node &node, int level) {
   if (node.IsScalar()) {
     APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT())
@@ -84,7 +94,7 @@ void print_yaml(const YAML::Node &node, int level) {
   }
 }
 
-/// test yaml config loading
+// test yaml config loading
 void test_yaml() {
   YAML::Node root =
       YAML::LoadFile("/home/kyros/WorkStation/CPP/apexstorm/conf/log.yml");
@@ -94,7 +104,7 @@ void test_yaml() {
   // APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT()) << root;
 }
 
-/// test yaml config variable changed
+// test yaml config variable changed
 void test_config() {
   APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT())
       << "before: " << g_int_value_config->getValue();
@@ -166,7 +176,7 @@ public:
   }
 };
 
-/// serialization and deserialization
+// serialization and deserialization
 namespace apexstorm {
 
 template <> class LexicalCast<std::string, Person> {
@@ -253,7 +263,7 @@ void test_class() {
 }
 #endif
 
-/// test log config loading and exporting
+// test log config loading and exporting
 void test_log() {
   static apexstorm::Logger::ptr system_log = APEXSTORM_LOG_NAME("system");
   APEXSTORM_LOG_INFO(system_log) << "hello system" << std::endl;
@@ -264,6 +274,12 @@ void test_log() {
   std::cout << "=========================" << std::endl;
   std::cout << apexstorm::LoggerMgr::GetInstance()->toYamlString() << std::endl;
   APEXSTORM_LOG_INFO(system_log) << "hello system" << std::endl;
+
+  apexstorm::Config::Visit([](apexstorm::ConfigVarBase::ptr var) {
+    APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT())
+        << var->getName() << " description=" << var->getDescription()
+        << " typename=" << var->getTypeName() << " value=" << var->toString();
+  });
 }
 
 int main() {

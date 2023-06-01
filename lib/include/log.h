@@ -1,6 +1,6 @@
 /**
  * @file log.h
- * @brief Logger module
+ * @brief Logger module.
  * @author kyros (le@90e.com)
  * @version 1.0
  * @date 2023-05-25
@@ -12,6 +12,7 @@
 #define __APEXSTORM_LOG_H__
 
 #include "singleton.h"
+#include "thread.h"
 #include "util.h"
 #include <cstdint>
 #include <cstdio>
@@ -25,6 +26,9 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
+
+// used for testing the lock effect comparing with no mutex lock.
+// #define TEST_ENABLE_NULL_MUTEX
 
 // -- Use streaming to write log level logs to logger --
 #define APEXSTORM_LOG_LEVEL(logger, level)                                     \
@@ -85,7 +89,7 @@ class Logger;
 class LoggerManager;
 
 /**
- * @brief Log Level
+ * @brief Log Level.
  */
 class LogLevel {
 public:
@@ -104,27 +108,25 @@ public:
     FATAL,
   };
   /**
-   * @brief Convert log levels to text output
-   * @param  level        Specifed LogLevel type
+   * @brief Convert log levels to text output.
    */
   static const char *ToString(LogLevel::Level level);
 
   /**
-   * @brief Convert text to log level
-   * @param  str          LogLevel text
+   * @brief Convert text to log level.
    */
   static LogLevel::Level FromString(const std::string &str);
 };
 
 /**
- * @brief Log Event
+ * @brief Log Event.
  */
 class LogEvent {
 public:
   typedef std::shared_ptr<LogEvent> ptr;
 
   /**
-   * @brief constructor
+   * @brief Constructor
    * @param logger          Logger
    * @param level           Logger level
    * @param file            Logger file name
@@ -140,61 +142,61 @@ public:
            uint32_t thread_id, uint32_t fiber_id, uint64_t time);
 
   /**
-   * @brief Get the Logger file name
+   * @brief Get the Logger file name.
    */
   const char *getFile() const { return m_file; }
 
   /**
-   * @brief Get the file line number
+   * @brief Get the file line number.
    */
   int32_t getLine() const { return m_line; }
   /**
-   * @brief Get the Time (milliseconds) for program startup dependencies
+   * @brief Get the Time (milliseconds) for program startup dependencies.
    */
   uint32_t getElapse() const { return m_elapse; }
 
   /**
-   * @brief Get the Thread Id
+   * @brief Get the Thread Id.
    */
   uint32_t getThreadId() const { return m_threadId; }
 
   /**
-   * @brief Get the Fiber Id
+   * @brief Get the Fiber Id.
    */
   uint32_t getFiberId() const { return m_fiberId; }
 
   /**
-   * @brief Get the Time (seconds) Log event
+   * @brief Get the Time (seconds) Log event.
    */
   uint64_t getTime() const { return m_time; }
 
   /**
-   * @brief Get the Logger content
+   * @brief Get the Logger content.
    */
   std::string getContent() const { return m_ss.str(); }
 
   /**
-   * @brief Get the Logger
+   * @brief Get the Logger.
    */
   std::shared_ptr<Logger> getLogger() const { return m_logger; }
 
   /**
-   * @brief Get the Logger Level
+   * @brief Get the Logger Level.
    */
   LogLevel::Level getLevel() const { return m_level; }
 
   /**
-   * @brief Get the Logger content stream
+   * @brief Get the Logger content stream.
    */
   std::stringstream &getSS() { return m_ss; }
 
   /**
-   * @brief Format write log content
+   * @brief Format write log content.
    */
   void format(const char *fmt, ...);
 
   /**
-   * @brief Format write log content
+   * @brief Format write log content.
    */
   void format(const char *fmt, va_list al);
 
@@ -203,62 +205,61 @@ private:
   const char *m_file = nullptr;
   /// file line number
   int32_t m_line = 0;
-  /// The number of milliseconds since the program started
+  /// the number of milliseconds since the program started
   uint32_t m_elapse = 0;
-  /// Thread id
+  /// thread id
   uint32_t m_threadId = 0;
-  /// Fiber id
+  /// fiber id
   uint32_t m_fiberId = 0;
-  /// Time stamp
+  /// time stamp
   uint64_t m_time = 0;
   /// log content flow
   std::stringstream m_ss;
 
-  /// Logger
+  /// logger
   std::shared_ptr<Logger> m_logger;
-  /// Logger Level
+  /// logger Level
   LogLevel::Level m_level;
 };
 
 /**
- * @brief LogEvent Wrapper
+ * @brief LogEvent Wrapper.
  */
 class LogEventWrap {
 public:
   /**
-   * @brief Construct a new Log Event Wrap
-   * @param  e               Logger reference
+   * @brief Construct a new Log Event Wrap.
    */
   LogEventWrap(LogEvent::ptr e);
 
   /**
-   * @brief Destroy the Log Event Wrap
+   * @brief Destroy the Log Event Wrap.
    */
   ~LogEventWrap();
 
   /**
-   * @brief Get the Event
+   * @brief Get the Event.
    */
   LogEvent::ptr getEvent() const { return m_event; }
 
   /**
-   * @brief Get the logger content stream
+   * @brief Get the logger content stream.
    */
   std::stringstream &getSS();
 
 private:
-  /// Log Event
+  /// log event pointer
   LogEvent::ptr m_event;
 };
 
 /**
- * @brief Log Formater
+ * @brief Log Formater.
  */
 class LogFormatter {
 public:
   typedef std::shared_ptr<LogFormatter> ptr;
   /**
-   * @brief constructor
+   * @brief Constructor
    * @param pattern format pattern
    * @details
    *  %m message
@@ -280,11 +281,10 @@ public:
   LogFormatter(const std::string &pattern);
 
   /**
-   * @brief  Returns formatted log text
+   * @brief  Returns formatted log text.
    * @param  logger           Logger
    * @param  level            Log level
    * @param  event            Log event
-   * @return std::string log text
    */
   std::string format(std::shared_ptr<Logger> logger, LogLevel::Level level,
                      LogEvent::ptr event);
@@ -293,18 +293,18 @@ public:
 
 public:
   /**
-   * @brief Log content item formatting
+   * @brief Log content item formatting.
    */
   class FormatItem {
   public:
     typedef std::shared_ptr<FormatItem> ptr;
     /**
-     * @brief Destroy the Format Item object
+     * @brief Destroy the Format Item object.
      */
     virtual ~FormatItem() {}
 
     /**
-     * @brief  Format log into stream
+     * @brief  Format log into stream.
      * @param  os             Specifed output stream
      * @param  logger         Logger
      * @param  level          Log level
@@ -315,31 +315,31 @@ public:
   };
 
   /**
-   * @brief Initialize, parse log patterns
+   * @brief Initialize, parse log patterns.
    */
   void init();
 
   /**
-   * @brief Return the Format whether successfully parsed
+   * @brief Return the Format whether successfully parsed.
    */
   bool isError() { return m_error; }
 
   /**
-   * @brief Return the format pattern
+   * @brief Return the format pattern.
    */
   const std::string getPattern() { return m_pattern; }
 
 private:
-  /// Log format pattern
+  /// log format pattern
   std::string m_pattern;
-  /// Log Format After Parsing Format
+  /// log Format After Parsing Format
   std::vector<FormatItem::ptr> m_items;
   /// whether parsing result is error
   bool m_error = false;
 };
 
 /**
- * @brief  Log output target
+ * @brief  Log output target, using spin mutex lock.
  */
 class LogAppender {
   friend class Logger;
@@ -347,13 +347,19 @@ class LogAppender {
 public:
   typedef std::shared_ptr<LogAppender> ptr;
 
+#ifdef TEST_ENABLE_NULL_MUTEX
+  typedef NullMutex MutexType;
+#else
+  typedef SpinLock MutexType;
+#endif
+
   /**
    * @brief Destroy the Log Appender object
    */
   virtual ~LogAppender() {}
 
   /**
-   * @brief  Write log
+   * @brief  Write log, (thread safety) implement by subclass.
    * @param  logger           Logger
    * @param  level            Log level
    * @param  event            log event
@@ -362,15 +368,14 @@ public:
                    LogEvent::ptr event) = 0;
 
   /**
-   * @brief Set the Formatter object
-   * @param  val              specifies LogFormatter
+   * @brief Set the Formatter (thread safety).
    */
   void setFormatter(LogFormatter::ptr val);
 
   /**
-   * @brief Get the Formatter object
+   * @brief Get the Formatter object (thread safety).
    */
-  LogFormatter::ptr getFormatter() { return m_formatter; }
+  LogFormatter::ptr getFormatter();
 
   /**
    * @brief Get the Log Level
@@ -383,21 +388,24 @@ public:
   void setLevel(LogLevel::Level level) { m_level = level; }
 
   /**
-   * @brief Convert LogAppender to YAML string
+   * @brief Convert LogAppender to YAML string (thread safety).
    */
   virtual std::string toYamlString() = 0;
 
 protected:
-  /// Log level
+  /// log level
   LogLevel::Level m_level = LogLevel::Level::DEBUG;
-  /// Log formater
+  /// log formater
   LogFormatter::ptr m_formatter;
   /// dose appender have formatter
   bool m_hasFormatter = false;
+
+  /// spin mutex lock.
+  MutexType m_mutex;
 };
 
 /**
- * @brief Logger
+ * @brief logger, using spin mutex lock.
  */
 class Logger : public std::enable_shared_from_this<Logger> {
   friend class LoggerManager;
@@ -405,145 +413,144 @@ class Logger : public std::enable_shared_from_this<Logger> {
 public:
   typedef std::shared_ptr<Logger> ptr;
 
+#ifdef TEST_ENABLE_NULL_MUTEX
+  typedef NullMutex MutexType;
+#else
+  typedef SpinLock MutexType;
+#endif
+
   /**
-   * @brief Construct a new Logger object
+   * @brief Construct a new Logger object.
    * @param  name             Logger name
    */
   Logger(const std::string &name = "root");
 
   /**
-   * @brief Write Log
-   * @param  level            Log level
-   * @param  event            Log event
+   * @brief Write Log (thread safety).
    */
   void log(LogLevel::Level level, LogEvent::ptr event);
 
   /**
-   * @brief Write DEBUG Log
-   * @param  level            Log level
-   * @param  event            Log event
+   * @brief Write DEBUG Log (thread safety).
    */
   void debug(LogEvent::ptr event);
 
   /**
-   * @brief Write INFO Log
-   * @param  level            Log level
-   * @param  event            Log event
+   * @brief Write INFO Log (thread safety).
    */
   void info(LogEvent::ptr event);
 
   /**
-   * @brief Write WARN Log
-   * @param  level            Log level
-   * @param  event            Log event
+   * @brief Write WARN Log (thread safety).
    */
   void warn(LogEvent::ptr event);
 
   /**
-   * @brief Write ERROR Log
-   * @param  level            Log level
-   * @param  event            Log event
+   * @brief Write ERROR Log (thread safety).
    */
   void error(LogEvent::ptr event);
 
   /**
-   * @brief Write FATAL Log
-   * @param  level            Log level
-   * @param  event            Log event
+   * @brief Write FATAL Log (thread safety).
    */
   void fatal(LogEvent::ptr event);
 
   /**
-   * @brief Add Log target
+   * @brief Add Log target (thread safety).
    * @param  appender         Log target
    */
   void addAppender(LogAppender::ptr appender);
 
   /**
-   * @brief Remove Log target
+   * @brief Remove Log target (thread safety).
    * @param  appender         Log target
    */
   void delAppender(LogAppender::ptr appender);
 
   /**
-   * @brief Clear all log targets
+   * @brief Clear all log targets (thread safety).
    */
   void clearAppenders();
 
   /**
-   * @brief Get the Logger Level
+   * @brief Get the Logger Level.
    */
   LogLevel::Level getLevel() const { return m_level; }
 
   /**
-   * @brief Set the Logger Level
-   * @param  level            Specifies Log level
+   * @brief Set the Logger Level.
    */
   void setLevel(LogLevel::Level level) { m_level = level; }
 
   /**
-   * @brief Get the Logger name
+   * @brief Get the Logger name.
    */
   const std::string &getName() const { return m_name; }
 
   /**
-   * @brief Set the Formatter, also setting status: has_formater
+   * @brief Set the Formatter, also setting status: has_formater.
    */
   void setFormatter(LogFormatter::ptr val);
-  void setFormatter(const std::string &val);
+  void setFormatter(const std::string &val); // (thread safety)
 
   /**
-   * @brief Get the Formatter
+   * @brief Get the Formatter.
    */
   LogFormatter::ptr getFormatter();
 
   /**
-   * @brief Convert Logger into YAML string
+   * @brief Convert Logger into YAML string (thread safety).
    */
   std::string toYamlString();
 
 private:
-  /// Log name
+  /// log name
   std::string m_name;
-  /// Log level
+  /// log level
   LogLevel::Level m_level;
-  /// Log targets collection
+  /// log targets collection
   std::list<LogAppender::ptr> m_appenders;
-  /// Log formater (unused)
+  /// log formater (unused)
   LogFormatter::ptr m_formatter;
-  /// Refer to root logger
+  /// refer to root logger
   Logger::ptr m_root;
+  /// spin mutex lock
+  MutexType m_mutex;
 };
 
 /**
- * @brief Appender output to console
+ * @brief Appender output to console, using spin mutex lock.
  */
 class StdoutLogAppender : public LogAppender {
 public:
   typedef std::shared_ptr<StdoutLogAppender> ptr;
 
+  /// (thread safety)
   void log(Logger::ptr logger, LogLevel::Level level,
            LogEvent::ptr event) override;
 
+  /// (thread safety)
   std::string toYamlString() override;
 };
 
 /**
- * @brief Appender output to file
+ * @brief Appender output to file, using spin mutex lock.
  */
 class FileLogAppender : public LogAppender {
 public:
   typedef std::shared_ptr<FileLogAppender> ptr;
 
   FileLogAppender(const std::string &filename);
+  /// (thread safety)
   void log(Logger::ptr logger, LogLevel::Level level,
            LogEvent::ptr event) override;
 
   /**
-   * @brief Reopen the log file
+   * @brief Reopen the log file (thread safety).
    */
   bool reopen();
 
+  /// (thread safety)
   std::string toYamlString() override;
 
 private:
@@ -551,20 +558,28 @@ private:
   std::string m_filename;
   /// file stream
   std::ofstream m_filestream;
+  /// recording the last time using the file log appender
+  uint64_t m_lastTime = 0;
 };
 
 /**
- * @brief  Logger Manager
+ * @brief  Logger Manager, using spin mutex lock.
  */
 class LoggerManager {
 public:
+#ifdef TEST_ENABLE_NULL_MUTEX
+  typedef NullMutex MutexType;
+#else
+  typedef SpinLock MutexType;
+#endif
+
   /**
-   * @brief Construct a new Logger Manager
+   * @brief Construct a new Logger Manager (thread safety).
    */
   LoggerManager();
 
   /**
-   * @brief Get the Logger
+   * @brief Get the Logger (thread safety).
    * @param  name             Specifed logger name
    */
   Logger::ptr getLogger(const std::string &name);
@@ -575,12 +590,12 @@ public:
   void init();
 
   /**
-   * @brief Get the root logger
+   * @brief Get the root logger.
    */
   Logger::ptr getRoot() const { return m_root; }
 
   /**
-   * @brief convert all loggers into YAML string
+   * @brief convert all loggers into YAML string (thread safety).
    */
   std::string toYamlString();
 
@@ -589,6 +604,8 @@ private:
   Logger::ptr m_root;
   /// logger container
   std::map<std::string, Logger::ptr> m_loggers;
+  /// spin mutex lock
+  MutexType m_mutex;
 };
 
 /// Logger management class singleton pattern

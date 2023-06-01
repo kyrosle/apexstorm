@@ -1,9 +1,11 @@
 #include "./include/log.h"
 #include "config.h"
+#include "thread.h"
 #include "yaml-cpp/node/node.h"
 #include "yaml-cpp/node/parse.h"
 #include <cctype>
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
@@ -21,7 +23,7 @@
 
 namespace apexstorm {
 
-/// LogLevel -> string
+// LogLevel -> string
 const char *LogLevel::ToString(LogLevel::Level level) {
   switch (level) {
 #define XX(name)                                                               \
@@ -40,7 +42,7 @@ const char *LogLevel::ToString(LogLevel::Level level) {
   }
 }
 
-/// string -> LogLevel
+// string -> LogLevel
 LogLevel::Level LogLevel::FromString(const std::string &v) {
 #define XX(level, str)                                                         \
   if (v == #str) {                                                             \
@@ -201,12 +203,16 @@ Logger::Logger(const std::string &name)
 }
 
 void Logger::addAppender(LogAppender::ptr appender) {
+  MutexType::Lock lock(m_mutex);
   if (!appender->getFormatter()) {
+    MutexType::Lock ll(appender->m_mutex);
     appender->m_formatter = m_formatter;
   }
   m_appenders.push_back(appender);
 }
+
 void Logger::delAppender(LogAppender::ptr appender) {
+  MutexType::Lock lock(m_mutex);
   for (auto it = m_appenders.begin(); it != m_appenders.end(); ++it) {
     if (*it == appender) {
       m_appenders.erase(it);
@@ -215,7 +221,10 @@ void Logger::delAppender(LogAppender::ptr appender) {
   }
 }
 
-void Logger::clearAppenders() { m_appenders.clear(); }
+void Logger::clearAppenders() {
+  MutexType::Lock lock(m_mutex);
+  m_appenders.clear();
+}
 
 void Logger::setFormatter(const std::string &val) {
   apexstorm::LogFormatter::ptr new_val(new apexstorm::LogFormatter(val));
@@ -228,11 +237,13 @@ void Logger::setFormatter(const std::string &val) {
 }
 
 void Logger::setFormatter(LogFormatter::ptr val) {
+  MutexType::Lock lock(m_mutex);
   m_formatter = val;
 
   // if its appender doesn't have specified formatter,
   // push down the modify formatter.
   for (auto &i : m_appenders) {
+    MutexType::Lock ll(i->m_mutex);
     if (!i->m_hasFormatter) {
       i->m_formatter = m_formatter;
     }
@@ -242,6 +253,7 @@ void Logger::setFormatter(LogFormatter::ptr val) {
 LogFormatter::ptr Logger::getFormatter() { return m_formatter; }
 
 std::string Logger::toYamlString() {
+  MutexType::Lock lock(m_mutex);
   YAML::Node node;
   node["name"] = m_name;
   if (m_level != LogLevel::Level::UNKNOWN) {
@@ -262,6 +274,7 @@ std::string Logger::toYamlString() {
 void Logger::log(LogLevel::Level level, LogEvent::ptr event) {
   if (level >= m_level) {
     auto self = shared_from_this();
+    MutexType::Lock lock(m_mutex);
     if (!m_appenders.empty()) {
       for (auto &i : m_appenders) {
         i->log(self, level, event);
@@ -280,6 +293,7 @@ void Logger::fatal(LogEvent::ptr event) { log(LogLevel::Level::FATAL, event); }
 
 // ---- Appender
 void LogAppender::setFormatter(LogFormatter::ptr val) {
+  MutexType::Lock lock(m_mutex);
   m_formatter = val;
   if (m_formatter) {
     m_hasFormatter = true;
@@ -288,12 +302,18 @@ void LogAppender::setFormatter(LogFormatter::ptr val) {
   }
 }
 
+LogFormatter::ptr LogAppender::getFormatter() {
+  MutexType::Lock lock(m_mutex);
+  return m_formatter;
+}
+
 FileLogAppender::FileLogAppender(const std::string &filename)
     : m_filename(filename) {
   reopen();
 }
 
 bool FileLogAppender::reopen() {
+  MutexType::Lock lock(m_mutex);
   if (m_filestream) {
     m_filestream.close();
   }
@@ -304,7 +324,15 @@ bool FileLogAppender::reopen() {
 void FileLogAppender::log(std::shared_ptr<Logger> logger, LogLevel::Level level,
                           LogEvent::ptr event) {
   if (level >= m_level) {
-    m_filestream << m_formatter->format(logger, level, event);
+    uint64_t now = time(0);
+    if (now != m_lastTime) {
+      reopen();
+      m_lastTime = now;
+    }
+    MutexType::Lock lock(m_mutex);
+    if (!(m_filestream << m_formatter->format(logger, level, event))) {
+      std::cout << "error" << std::endl;
+    }
   }
 }
 
@@ -327,6 +355,7 @@ std::string FileLogAppender::toYamlString() {
 void StdoutLogAppender::log(std::shared_ptr<Logger> logger,
                             LogLevel::Level level, LogEvent::ptr event) {
   if (level >= m_level) {
+    MutexType::Lock lock(m_mutex);
     std::cout << m_formatter->format(logger, level, event);
   }
 }
@@ -578,6 +607,7 @@ LoggerManager::LoggerManager() {
 }
 
 Logger::ptr LoggerManager::getLogger(const std::string &name) {
+  MutexType::Lock lock(m_mutex);
   auto it = m_loggers.find(name);
   if (it != m_loggers.end()) {
     return it->second;
@@ -589,6 +619,7 @@ Logger::ptr LoggerManager::getLogger(const std::string &name) {
 }
 
 std::string LoggerManager::toYamlString() {
+  MutexType::Lock lock(m_mutex);
   YAML::Node node;
   for (auto &i : m_loggers) {
     node.push_back(YAML::Load(i.second->toYamlString()));
@@ -756,68 +787,66 @@ apexstorm::ConfigVar<std::set<LogDefine>>::ptr g_log_defines =
 // Initialize the before main()
 struct LogIniter {
   LogIniter() {
-    g_log_defines->addListener(
-        0xF1E231, [](const std::set<LogDefine> &old_value,
-                     const std::set<LogDefine> &new_value) {
-          APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT()) << "on_logger_conf_changed";
-          // add
-          for (auto &i : new_value) {
-            auto it = old_value.find(i);
-            apexstorm::Logger::ptr logger;
+    g_log_defines->addListener([](const std::set<LogDefine> &old_value,
+                                  const std::set<LogDefine> &new_value) {
+      APEXSTORM_LOG_INFO(APEXSTORM_LOG_ROOT()) << "on_logger_conf_changed";
+      // add
+      for (auto &i : new_value) {
+        auto it = old_value.find(i);
+        apexstorm::Logger::ptr logger;
 
-            if (it == old_value.end()) {
-              // add logger
-              logger = APEXSTORM_LOG_NAME(i.name);
+        if (it == old_value.end()) {
+          // add logger
+          logger = APEXSTORM_LOG_NAME(i.name);
+        } else {
+          if (!(i == *it)) {
+            // modify logger
+            logger = APEXSTORM_LOG_NAME(i.name);
+          }
+        }
+
+        logger->setLevel(i.level);
+        if (!i.formatter.empty()) {
+          logger->setFormatter(i.formatter);
+        }
+
+        logger->clearAppenders();
+        for (auto &a : i.appenders) {
+          apexstorm::LogAppender::ptr ap;
+          if (a.type == 1) {
+            // File
+            ap.reset(new FileLogAppender(a.file));
+          } else if (a.type == 2) {
+            // Stdout
+            ap.reset(new StdoutLogAppender);
+          }
+          ap->setLevel(a.level);
+          if (!a.formatter.empty()) {
+            LogFormatter::ptr fmt(new LogFormatter(a.formatter));
+            if (!fmt->isError()) {
+              ap->setFormatter(fmt);
             } else {
-              if (!(i == *it)) {
-                // modify logger
-                logger = APEXSTORM_LOG_NAME(i.name);
-              }
-            }
-
-            logger->setLevel(i.level);
-            if (!i.formatter.empty()) {
-              logger->setFormatter(i.formatter);
-            }
-
-            logger->clearAppenders();
-            for (auto &a : i.appenders) {
-              apexstorm::LogAppender::ptr ap;
-              if (a.type == 1) {
-                // File
-                ap.reset(new FileLogAppender(a.file));
-              } else if (a.type == 2) {
-                // Stdout
-                ap.reset(new StdoutLogAppender);
-              }
-              ap->setLevel(a.level);
-              if (!a.formatter.empty()) {
-                LogFormatter::ptr fmt(new LogFormatter(a.formatter));
-                if (!fmt->isError()) {
-                  ap->setFormatter(fmt);
-                } else {
-                  std::cout << "log.name=" << i.name
-                            << "appender type=" << a.type
-                            << " formatter=" << a.formatter << " is invalid"
-                            << std::endl;
-                }
-              }
-              logger->addAppender(ap);
+              std::cout << "log.name=" << i.name << "appender type=" << a.type
+                        << " formatter=" << a.formatter << " is invalid"
+                        << std::endl;
             }
           }
+          logger->addAppender(ap);
+        }
+      }
 
-          // remove
-          for (auto &i : old_value) {
-            auto it = new_value.find(i);
-            if (it == new_value.end()) {
-              // remove logger
-              auto logger = APEXSTORM_LOG_NAME(i.name);
-              // set Highest level
-              logger->setLevel((LogLevel::Level)100);
-              logger->clearAppenders();
-            }
-          }
-        });
+      // remove
+      for (auto &i : old_value) {
+        auto it = new_value.find(i);
+        if (it == new_value.end()) {
+          // remove logger
+          auto logger = APEXSTORM_LOG_NAME(i.name);
+          // set Highest level
+          logger->setLevel((LogLevel::Level)100);
+          logger->clearAppenders();
+        }
+      }
+    });
   }
 };
 

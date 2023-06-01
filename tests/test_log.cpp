@@ -1,3 +1,13 @@
+/**
+ * @file test_log.cpp
+ * @brief testing log module
+ * @author kyros (le@90e.com)
+ * @version 1.0
+ * @date 2023-06-01
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
 #include "../lib/include/log.h"
 #include "../lib/include/util.h"
 #include <cstdint>

@@ -2,6 +2,7 @@
 #include "log.h"
 #include "yaml-cpp/node/node.h"
 #include <algorithm>
+#include <functional>
 #include <list>
 #include <map>
 #include <set>
@@ -14,14 +15,14 @@
 
 namespace apexstorm {
 
-/**
- * @brief Static Config Collection
- */
+// Static Config Collection
+
 // Config::ConfigVarMap Config::s_datas;
 
 ConfigVarBase::~ConfigVarBase() {}
 
 ConfigVarBase::ptr Config::LookupBase(const std::string &name) {
+  RWMutexType::ReadLock lock(GetMutex());
   auto it = GetDatas().find(name);
   return it == GetDatas().end() ? nullptr : it->second;
 }
@@ -31,12 +32,9 @@ ConfigVarBase::ptr Config::LookupBase(const std::string &name) {
 //  B: 10
 //  C: str
 
-/**
- * @brief
- * @param[in]  prefix           prefix yaml path
- * @param[in]  node             YAML::Node structure
- * @param[out] output           identifier-node list collection
- */
+// @param[in] prefix prefix yaml path
+// @param[in] node YAML::Node structure
+// @param[out] output identifier - node list collection
 static void
 ListAllMember(const std::string &prefix, const YAML::Node &node,
               std::list<std::pair<std::string, const YAML::Node>> &output) {
@@ -83,4 +81,13 @@ void Config::LoadFromYaml(const YAML::Node &root) {
     }
   }
 }
+
+void Config::Visit(std::function<void(ConfigVarBase::ptr)> cb) {
+  RWMutexType::ReadLock lock(GetMutex());
+  ConfigVarMap &m = GetDatas();
+  for (auto it = m.begin(); it != m.end(); ++it) {
+    cb(it->second);
+  }
+}
+
 } // namespace apexstorm
