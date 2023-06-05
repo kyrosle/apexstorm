@@ -15,9 +15,11 @@
 #include <pthread.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string>
 #include <sys/syscall.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <vector>
 
 namespace apexstorm {
 
@@ -26,6 +28,10 @@ pid_t GetThreadId();
 
 // Returns current fiber id.
 uint32_t GetFiberId();
+
+void Backtrace(std::vector<std::string> &bt, int size, int skip);
+std::string BacktraceToString(int size = 64, int skip = 2,
+                              const std::string &prefix = "\t");
 
 } // namespace apexstorm
 #endif

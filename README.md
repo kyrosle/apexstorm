@@ -278,6 +278,62 @@ write file periodic reopen(should fixed).
 
 ## Coroutine Library Encapsulation
 
+Coroutine interface
+
+ucontext_t
+
+```cpp
+// get current context and storing in `ucp` structure.
+int getcontext(ucontext_t *ucp);
+
+// set current context to `ucp`. `ucp` should get by `getcontext` or `makecontext`.
+int setcontext(const ucontext_t *ucp);
+
+// modify `ucp` (get by `getcontext`), setting `ucp` context (func).
+void makecontext(ucontext_t *ucp, void (*func)(), int argc...);
+
+// swap current context into `ucp` and storing previous context into `old_ucp`.
+int swapcontext(ucontext_t *old_ucp, const ucontext_t * ucp);
+```
+
+macro for debugging
+
+```cpp
+Fiber::GetThis()
+Thread -> main_fiber <----> sub_fiber
+              ^
+              |
+              |
+              |
+           sub_fiber
+```
+
+coroutine scheduler
+
+```cpp
+          1 - N         1 - M
+scheduler -- --> thread -- --> fiber
+1. thread pool, allocate a group of threads.
+2. coroutine scheduler, assign the coroutine to the corresponding thread for execution.
+
+N : M
+
+m_threads
+<function<void() | Fiber, thread_id>>m_fibers
+
+schedule(func/fiber)
+
+start()
+stop()
+run()
+
+1. set current thread scheduler
+2. set current thread run, fiber
+3. coroutine schedule while(true)
+  1. coroutine message queue whether has task?
+  2. not task, execute idle.
+```
+
 ## Socket Library
 
 ## Http Protocol Development

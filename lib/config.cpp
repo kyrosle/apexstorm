@@ -18,7 +18,6 @@ namespace apexstorm {
 // Static Config Collection
 
 // Config::ConfigVarMap Config::s_datas;
-
 ConfigVarBase::~ConfigVarBase() {}
 
 ConfigVarBase::ptr Config::LookupBase(const std::string &name) {

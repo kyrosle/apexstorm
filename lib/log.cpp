@@ -63,7 +63,6 @@ LogLevel::Level LogLevel::FromString(const std::string &v) {
 #undef XX
 }
 
-// FormatItems ----
 class MessageFormatItem : public LogFormatter::FormatItem {
 public:
   MessageFormatItem(const std::string &fmt) {}
@@ -115,6 +114,14 @@ public:
   void format(std::ostream &os, std::shared_ptr<Logger> logger,
               LogLevel::Level level, LogEvent::ptr event) override {
     os << event->getFiberId();
+  }
+};
+class ThreadNameFormatItem : public LogFormatter::FormatItem {
+public:
+  ThreadNameFormatItem(const std::string &fmt = "") {}
+  void format(std::ostream &os, std::shared_ptr<Logger> logger,
+              LogLevel::Level level, LogEvent::ptr event) override {
+    os << event->getThreadName();
   }
 };
 
@@ -190,13 +197,11 @@ public:
 private:
   std::string m_string;
 };
-// ---- FormatItems
 
-// Logger ----
 Logger::Logger(const std::string &name)
     : m_name(name), m_level(LogLevel::Level::DEBUG) {
   m_formatter.reset(new LogFormatter(
-      "%d{%Y-%m-%d %H:%M:%S}%T%t%T%F%T[%p]%T[%c]%T%f:%l%T%m%n"));
+      "%d{%Y-%m-%d %H:%M:%S}%T%t%T%N%T%F%T[%p]%T[%c]%T%f:%l%T%m%n"));
   // if (name == "root") {
   //   m_appenders.push_back(LogAppender::ptr(new StdoutLogAppender));
   // }
@@ -289,9 +294,7 @@ void Logger::info(LogEvent::ptr event) { log(LogLevel::Level::INFO, event); }
 void Logger::warn(LogEvent::ptr event) { log(LogLevel::Level::WARN, event); }
 void Logger::error(LogEvent::ptr event) { log(LogLevel::Level::ERROR, event); }
 void Logger::fatal(LogEvent::ptr event) { log(LogLevel::Level::FATAL, event); }
-// ---- Logger
 
-// ---- Appender
 void LogAppender::setFormatter(LogFormatter::ptr val) {
   MutexType::Lock lock(m_mutex);
   m_formatter = val;
@@ -373,9 +376,7 @@ std::string StdoutLogAppender::toYamlString() {
   ss << node;
   return ss.str();
 }
-// Appender ----
 
-// ---- LogFormatter
 LogFormatter::LogFormatter(const std::string &pattern) : m_pattern(pattern) {
   init();
 }
@@ -517,12 +518,18 @@ void LogFormatter::init() {
     #str, [](const std::string &fmt) { return FormatItem::ptr(new C(fmt)); }   \
   }
 
-          XX(m, MessageFormatItem),  XX(p, LevelFormatItem),
-          XX(r, ElapseFormatItem),   XX(c, NameFormatItem),
-          XX(t, ThreadIdFormatItem), XX(n, NewLineFormatItem),
-          XX(d, DateTimeFormatItem), XX(f, FilenameFormatItem),
-          XX(l, LineFormatItem),     XX(T, TabFormatItem),
-          XX(F, FiberFormatItem),
+          XX(m, MessageFormatItem),   // m:message
+          XX(p, LevelFormatItem),     // p:log level
+          XX(r, ElapseFormatItem),    // r:elapsed time
+          XX(c, NameFormatItem),      // c:log name
+          XX(t, ThreadIdFormatItem),  // t:thread id
+          XX(n, NewLineFormatItem),   // n:new line
+          XX(d, DateTimeFormatItem),  // d:date
+          XX(f, FilenameFormatItem),  // f:file name
+          XX(l, LineFormatItem),      // l:line number
+          XX(T, TabFormatItem),       // T:Tab
+          XX(F, FiberFormatItem),     // F:fiber id
+          XX(N, ThreadNameFormatItem) // N:thread name
 #undef XX
       };
 
@@ -553,14 +560,13 @@ void LogFormatter::init() {
   // std::cout << m_items.size() << std::endl;
 }
 
-// LogFormatter ----
-
-// ---- LogEvent
 LogEvent::LogEvent(std::shared_ptr<Logger> logger, LogLevel::Level level,
                    const char *file, int32_t m_line, uint32_t elapse,
-                   uint32_t thread_id, uint32_t fiber_id, uint64_t time)
+                   uint32_t thread_id, uint32_t fiber_id, uint64_t time,
+                   const std::string &thread_name)
     : m_file(file), m_line(m_line), m_elapse(elapse), m_fiberId(fiber_id),
-      m_threadId(thread_id), m_time(time), m_logger(logger), m_level(level) {}
+      m_threadId(thread_id), m_threadname(thread_name), m_time(time),
+      m_logger(logger), m_level(level) {}
 
 void LogEvent::format(const char *fmt, ...) {
   va_list al;
@@ -584,9 +590,6 @@ void LogEvent::format(const char *fmt, va_list al) {
   }
 }
 
-// LogEvent ----
-
-// ---- LogEventWarp
 LogEventWrap::LogEventWrap(LogEvent::ptr e) : m_event(e) {}
 
 LogEventWrap::~LogEventWrap() {
@@ -594,9 +597,7 @@ LogEventWrap::~LogEventWrap() {
 }
 
 std::stringstream &LogEventWrap::getSS() { return m_event->getSS(); }
-// LogEventWarp ----
 
-// ---- LogManager
 LoggerManager::LoggerManager() {
   m_root.reset(new Logger);
   m_root->addAppender(LogAppender::ptr(new StdoutLogAppender));
@@ -629,7 +630,6 @@ std::string LoggerManager::toYamlString() {
   return ss.str();
 }
 
-// LogManager ----
 struct LogAppenderDefine {
   int type = 0; // 1 File, 2 Stdout
   LogLevel::Level level = LogLevel::Level::UNKNOWN;
@@ -853,6 +853,5 @@ struct LogIniter {
 static LogIniter __log_init;
 
 void LoggerManager::init() {}
-// LogManager ----
 
 } // namespace apexstorm

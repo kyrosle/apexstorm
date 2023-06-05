@@ -36,3 +36,18 @@ target("test_config")
 target("test_thread")
   set_kind("binary")
   add_files("tests/test_thread.cpp")
+
+-- test fiber target
+target("test_fiber")
+  set_kind("binary")
+  add_files("tests/test_fiber.cpp")
+
+-- test scheduler target
+target("test_scheduler")
+  set_kind("binary")
+  add_files("tests/test_scheduler.cpp")
+
+-- test util target
+target("test_util")
+  set_kind("binary")
+  add_files("tests/test_util.cpp")
