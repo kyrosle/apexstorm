@@ -278,6 +278,8 @@ write file periodic reopen(should fixed).
 
 ## Coroutine Library Encapsulation
 
+more relevant introduction: [coroutine_cpp_zh](./notes/coroutine_cpp_zh.md)
+
 Coroutine interface
 
 ucontext_t

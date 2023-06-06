@@ -22,7 +22,7 @@ static std::atomic<uint64_t> s_fiber_count = {0};
 
 // current thread running fiber pointer.
 static thread_local Fiber *t_fiber = nullptr;
-// current thread root fiber reference.
+// current thread temporary storage fiber object.
 static thread_local Fiber::ptr t_threadFiber = nullptr;
 
 // set fiber stack_size config

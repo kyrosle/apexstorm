@@ -187,6 +187,7 @@ void Scheduler::run() {
 
     // mark whether we should swap the fiber
     bool tickle_me = false;
+    bool is_active = false;
 
     { // search available fiber from `m_fibers`, lock
       MutexType::Lock lock(m_mutex);
@@ -208,9 +209,10 @@ void Scheduler::run() {
         ft = *it;
         tickle_me = false;
         m_fibers.erase(it);
+        ++m_activeThreadCount;
+        is_active = true;
         break;
       }
-      tickle_me |= it != m_fibers.end();
     } // -- -- -- --
 
     if (tickle_me) {
@@ -221,7 +223,6 @@ void Scheduler::run() {
     if (ft.fiber && ft.fiber->getState() != Fiber::State::TERM &&
         ft.fiber->getState() != Fiber::State::EXCEPT) {
 
-      ++m_activeThreadCount;
       ft.fiber->swapIn();
       --m_activeThreadCount;
 
@@ -248,7 +249,6 @@ void Scheduler::run() {
       }
       ft.reset();
 
-      ++m_activeThreadCount;
       cb_fiber->swapIn();
       --m_activeThreadCount;
 
@@ -268,6 +268,11 @@ void Scheduler::run() {
         cb_fiber.reset();
       }
     } else { // swap into idle fiber
+      if (is_active) {
+        --m_activeThreadCount;
+        continue;
+      }
+
       if (idle_fiber->getState() == Fiber::State::TERM) {
         APEXSTORM_LOG_INFO(g_logger) << "idle fiber term";
         break;
@@ -291,7 +296,12 @@ void Scheduler::setThis() { t_scheduler = this; }
 
 void Scheduler::tickle() { APEXSTORM_LOG_INFO(g_logger) << "tickle"; }
 
-void Scheduler::idle() { APEXSTORM_LOG_INFO(g_logger) << "idle"; }
+void Scheduler::idle() {
+  APEXSTORM_LOG_INFO(g_logger) << "idle";
+  while (!stopping()) {
+    apexstorm::Fiber::YieldToHold();
+  }
+}
 
 bool Scheduler::stopping() {
   MutexType::Lock lock(m_mutex);

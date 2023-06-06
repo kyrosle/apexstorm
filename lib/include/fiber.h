@@ -44,6 +44,7 @@ public:
   // Constructor,
   // @param cb          Functions executed by coroutines
   // @param stacksize   coroutine stack size
+  // @param use_caller  whether to use caller thread
   Fiber(std::function<void()> cb, size_t stacksize = 0,
         bool use_caller = false);
 
