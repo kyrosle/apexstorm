@@ -86,6 +86,8 @@ protected:
   // Set the current scheduler.
   void setThis();
 
+  bool hasIdleThreads() { return m_idleThreadCount > 0; }
+
 private:
   // Coroutine scheduling start (lock-free).
   template <class FiberOrCb> bool scheduleNoLock(FiberOrCb fc, int thread) {

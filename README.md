@@ -336,6 +336,28 @@ run()
   2. not task, execute idle.
 ```
 
+```cpp
+IOManager (epoll) ---> Scheduler
+    |
+    |
+    |
+  idle (epoll_wait)
+
+
+  semaphore
+PutMessage(msg,) semaphore + 1 single()
+message_queue
+    |
+    |------- Thread
+    |------- Thread
+      - wait() semaphore 1, RecvMessage(msg,)
+
+asynchronous io,
+waiting data back, block_on epoll_wait
+
+epoll_create , epoll_ctl, epoll_wait
+```
+
 ## Socket Library
 
 ## Http Protocol Development

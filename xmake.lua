@@ -47,6 +47,11 @@ target("test_scheduler")
   set_kind("binary")
   add_files("tests/test_scheduler.cpp")
 
+-- test iomanager target
+target("test_iomanager")
+  set_kind("binary")
+  add_files("tests/test_iomanager.cpp")
+
 -- test util target
 target("test_util")
   set_kind("binary")
