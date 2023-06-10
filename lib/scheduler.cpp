@@ -297,7 +297,7 @@ void Scheduler::setThis() { t_scheduler = this; }
 void Scheduler::tickle() { APEXSTORM_LOG_INFO(g_logger) << "tickle"; }
 
 void Scheduler::idle() {
-  APEXSTORM_LOG_INFO(g_logger) << "idle";
+  APEXSTORM_LOG_INFO(g_logger) << "Idle";
   while (!stopping()) {
     apexstorm::Fiber::YieldToHold();
   }

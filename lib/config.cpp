@@ -31,8 +31,8 @@ ConfigVarBase::ptr Config::LookupBase(const std::string &name) {
 //  B: 10
 //  C: str
 
-// @param[in] prefix prefix yaml path
-// @param[in] node YAML::Node structure
+// @param prefix prefix yaml path
+// @param node YAML::Node structure
 // @param[out] output identifier - node list collection
 static void
 ListAllMember(const std::string &prefix, const YAML::Node &node,

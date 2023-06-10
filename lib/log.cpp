@@ -518,6 +518,7 @@ void LogFormatter::init() {
     #str, [](const std::string &fmt) { return FormatItem::ptr(new C(fmt)); }   \
   }
 
+          // "%d{%Y-%m-%d %H:%M:%S}%T%t%T%N%T%F%T[%p]%T[%c]%T%f:%l%T%m%n"
           XX(m, MessageFormatItem),   // m:message
           XX(p, LevelFormatItem),     // p:log level
           XX(r, ElapseFormatItem),    // r:elapsed time

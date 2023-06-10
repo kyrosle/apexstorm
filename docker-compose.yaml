@@ -1,0 +1,24 @@
+# more info see https://docs.docker.com/compose/compose-file/
+version: "3.7" # https://docs.docker.com/compose/compose-file/compose-versioning/
+services:
+  deploy-fedora: # https://hub.docker.com/_/fedora
+    container_name: "deploy-fedora"
+    image: "fedora:39" # https://hub.docker.com/_/fedora/tags
+    platform: "linux/amd64" # https://docs.docker.com/compose/compose-file/compose-file-v2/#platform
+    working_dir: "/usr/src/app/bin"
+    volumes: ["$PWD:/usr/src/app"] #
+    command: ["tail", "-f","/dev/null"]
+    restart: on-failure:3 # on-failure:3 or unless-stopped default "no"
+    shm_size: 1gb # share mem https://docs.docker.com/compose/compose-file/compose-file-v2/#shm_size
+    ulimits: # limits https://docs.docker.com/compose/compose-file/compose-file-v2/#ulimits
+      core: 0
+      nofile:
+        soft: 1024
+        hard: 1024
+    deploy:
+      resources: # https://docs.docker.com/compose/compose-file/deploy/#resources
+        limits:
+          cpus: "0.10"
+          memory: 1G
+        reservations:
+          memory: 200M

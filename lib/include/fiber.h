@@ -9,6 +9,7 @@
 #include <sys/ucontext.h>
 #include <ucontext.h>
 
+// #define __LOG_FIBER_CHANGED
 namespace apexstorm {
 
 class Scheduler;

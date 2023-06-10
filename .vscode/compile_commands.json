@@ -1,273 +1,153 @@
 [
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
   "file": "lib/log.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
   "file": "lib/util.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
   "file": "lib/config.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
   "file": "lib/thread.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
   "file": "lib/fiber.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
   "file": "lib/scheduler.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
   "file": "lib/mutex.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
   "file": "lib/iomanager.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/tests/test_config.cpp.o", "tests/test_config.cpp"],
-  "file": "tests/test_config.cpp"
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/timer.cpp.o", "lib/timer.cpp"],
+  "file": "lib/timer.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/apexstorm/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/tests/test_fiber.cpp.o", "tests/test_fiber.cpp"],
+  "file": "tests/test_fiber.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_timer/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
   "file": "lib/log.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/apexstorm/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_timer/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
   "file": "lib/util.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/apexstorm/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_timer/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
   "file": "lib/config.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/apexstorm/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_timer/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
   "file": "lib/thread.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/apexstorm/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_timer/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
   "file": "lib/fiber.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/apexstorm/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_timer/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
   "file": "lib/scheduler.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/apexstorm/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_timer/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
   "file": "lib/mutex.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/apexstorm/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_timer/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
   "file": "lib/iomanager.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/apexstorm/linux/x86_64/debug/src/main.cpp.o", "src/main.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_timer/linux/x86_64/debug/lib/timer.cpp.o", "lib/timer.cpp"],
+  "file": "lib/timer.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_timer/linux/x86_64/debug/tests/test_timer.cpp.o", "tests/test_timer.cpp"],
+  "file": "tests/test_timer.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/main/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
+  "file": "lib/log.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/main/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
+  "file": "lib/util.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/main/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
+  "file": "lib/config.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/main/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
+  "file": "lib/thread.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/main/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
+  "file": "lib/fiber.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/main/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
+  "file": "lib/scheduler.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/main/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
+  "file": "lib/mutex.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/main/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
+  "file": "lib/iomanager.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/main/linux/x86_64/debug/lib/timer.cpp.o", "lib/timer.cpp"],
+  "file": "lib/timer.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/main/linux/x86_64/debug/src/main.cpp.o", "src/main.cpp"],
   "file": "src/main.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
-  "file": "lib/log.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
-  "file": "lib/util.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
-  "file": "lib/config.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
-  "file": "lib/thread.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
-  "file": "lib/fiber.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
-  "file": "lib/scheduler.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
-  "file": "lib/mutex.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
-  "file": "lib/iomanager.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/tests/test_util.cpp.o", "tests/test_util.cpp"],
-  "file": "tests/test_util.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
-  "file": "lib/log.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
-  "file": "lib/util.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
-  "file": "lib/config.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
-  "file": "lib/thread.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
-  "file": "lib/fiber.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
-  "file": "lib/scheduler.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
-  "file": "lib/mutex.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
-  "file": "lib/iomanager.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/tests/test_iomanager.cpp.o", "tests/test_iomanager.cpp"],
-  "file": "tests/test_iomanager.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
-  "file": "lib/log.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
-  "file": "lib/util.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
-  "file": "lib/config.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
-  "file": "lib/thread.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
-  "file": "lib/fiber.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
-  "file": "lib/scheduler.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
-  "file": "lib/mutex.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
-  "file": "lib/iomanager.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/tests/test_log.cpp.o", "tests/test_log.cpp"],
-  "file": "tests/test_log.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
-  "file": "lib/log.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
-  "file": "lib/util.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
-  "file": "lib/config.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
-  "file": "lib/thread.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
-  "file": "lib/fiber.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
-  "file": "lib/scheduler.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
-  "file": "lib/mutex.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
-  "file": "lib/iomanager.cpp"
-},
-{
-  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/tests/test_scheduler.cpp.o", "tests/test_scheduler.cpp"],
-  "file": "tests/test_scheduler.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
@@ -311,51 +191,261 @@
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_thread/linux/x86_64/debug/lib/timer.cpp.o", "lib/timer.cpp"],
+  "file": "lib/timer.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
   "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_thread/linux/x86_64/debug/tests/test_thread.cpp.o", "tests/test_thread.cpp"],
   "file": "tests/test_thread.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
   "file": "lib/log.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
   "file": "lib/util.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
   "file": "lib/config.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
   "file": "lib/thread.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
   "file": "lib/fiber.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
   "file": "lib/scheduler.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
   "file": "lib/mutex.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
   "file": "lib/iomanager.cpp"
 },
 {
   "directory": "/home/kyros/WorkStation/CPP/apexstorm",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_fiber/linux/x86_64/debug/tests/test_fiber.cpp.o", "tests/test_fiber.cpp"],
-  "file": "tests/test_fiber.cpp"
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/lib/timer.cpp.o", "lib/timer.cpp"],
+  "file": "lib/timer.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_scheduler/linux/x86_64/debug/tests/test_scheduler.cpp.o", "tests/test_scheduler.cpp"],
+  "file": "tests/test_scheduler.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
+  "file": "lib/log.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
+  "file": "lib/util.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
+  "file": "lib/config.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
+  "file": "lib/thread.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
+  "file": "lib/fiber.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
+  "file": "lib/scheduler.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
+  "file": "lib/mutex.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
+  "file": "lib/iomanager.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/lib/timer.cpp.o", "lib/timer.cpp"],
+  "file": "lib/timer.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_log/linux/x86_64/debug/tests/test_log.cpp.o", "tests/test_log.cpp"],
+  "file": "tests/test_log.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
+  "file": "lib/log.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
+  "file": "lib/util.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
+  "file": "lib/config.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
+  "file": "lib/thread.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
+  "file": "lib/fiber.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
+  "file": "lib/scheduler.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
+  "file": "lib/mutex.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
+  "file": "lib/iomanager.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/lib/timer.cpp.o", "lib/timer.cpp"],
+  "file": "lib/timer.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_iomanager/linux/x86_64/debug/tests/test_iomanager.cpp.o", "tests/test_iomanager.cpp"],
+  "file": "tests/test_iomanager.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
+  "file": "lib/log.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
+  "file": "lib/util.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
+  "file": "lib/config.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
+  "file": "lib/thread.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
+  "file": "lib/fiber.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
+  "file": "lib/scheduler.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
+  "file": "lib/mutex.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
+  "file": "lib/iomanager.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/lib/timer.cpp.o", "lib/timer.cpp"],
+  "file": "lib/timer.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_config/linux/x86_64/debug/tests/test_config.cpp.o", "tests/test_config.cpp"],
+  "file": "tests/test_config.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/log.cpp.o", "lib/log.cpp"],
+  "file": "lib/log.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/util.cpp.o", "lib/util.cpp"],
+  "file": "lib/util.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/config.cpp.o", "lib/config.cpp"],
+  "file": "lib/config.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/thread.cpp.o", "lib/thread.cpp"],
+  "file": "lib/thread.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/fiber.cpp.o", "lib/fiber.cpp"],
+  "file": "lib/fiber.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/scheduler.cpp.o", "lib/scheduler.cpp"],
+  "file": "lib/scheduler.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/mutex.cpp.o", "lib/mutex.cpp"],
+  "file": "lib/mutex.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/iomanager.cpp.o", "lib/iomanager.cpp"],
+  "file": "lib/iomanager.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/lib/timer.cpp.o", "lib/timer.cpp"],
+  "file": "lib/timer.cpp"
+},
+{
+  "directory": "/home/kyros/WorkStation/CPP/apexstorm",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O0", "-Ilib/include", "-I", "/home/kyros/.xmake/packages/y/yaml-cpp/0.7.0/c43d7f3fd9044adcaea2b25c200c62dd/include", "-fmacro-prefix-map=$pwd/=.", "-o", "build/.objs/test_util/linux/x86_64/debug/tests/test_util.cpp.o", "tests/test_util.cpp"],
+  "file": "tests/test_util.cpp"
 }]

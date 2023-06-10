@@ -6,6 +6,7 @@ add_cxflags("-fmacro-prefix-map=$pwd/=.")
 -- including the package headers.
 add_rules("plugin.compile_commands.autoupdate", {outputdir = "build"})
 
+
 -- add package: `yaml-cpp`
 add_requires("yaml-cpp")
 add_packages("yaml-cpp")
@@ -17,42 +18,31 @@ set_targetdir("bin")
 add_includedirs("lib/include")
 add_files("lib/*.cpp")
 
--- main target
-target("apexstorm")
-  set_kind("binary")
-  add_files("src/*.cpp")
+-- target
+-- `main` in src/main.cpp
+-- others in tests/*.cpp
+targets = {
+  "main",
+  "test_log",
+  "test_config",
+  "test_thread",
+  "test_fiber",
+  "test_scheduler",
+  "test_iomanager",
+  "test_timer",
+  "test_util",
+}
 
--- test log target
-target("test_log")
-  set_kind("binary")
-  add_files("tests/test_log.cpp")
-
--- test config target
-target("test_config")
-  set_kind("binary")
-  add_files("tests/test_config.cpp")
-
--- test thread target
-target("test_thread")
-  set_kind("binary")
-  add_files("tests/test_thread.cpp")
-
--- test fiber target
-target("test_fiber")
-  set_kind("binary")
-  add_files("tests/test_fiber.cpp")
-
--- test scheduler target
-target("test_scheduler")
-  set_kind("binary")
-  add_files("tests/test_scheduler.cpp")
-
--- test iomanager target
-target("test_iomanager")
-  set_kind("binary")
-  add_files("tests/test_iomanager.cpp")
-
--- test util target
-target("test_util")
-  set_kind("binary")
-  add_files("tests/test_util.cpp")
+-- iterate over all targets
+for i, label in pairs(targets) do
+  if (label == "main")
+  then
+    target("main")
+      set_kind("binary")
+      add_files("src/*.cpp")
+  else
+    target(label)
+      set_kind("binary")
+      add_files("tests/" .. label .. ".cpp")
+  end
+end

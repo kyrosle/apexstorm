@@ -144,7 +144,10 @@ void Fiber::reset(std::function<void()> cb) {
 void Fiber::call() {
   // current thread run this fiber.
   SetThis(this);
-  APEXSTORM_LOG_INFO(g_logger) << getId();
+#ifdef __LOG_FIBER_CHANGED
+  APEXSTORM_LOG_INFO(g_logger)
+      << "call: " << t_threadFiber->getId() << " -> " << this->getId();
+#endif
   m_state = State::EXEC;
 
   // current fiber -> this.m_ctx
@@ -157,6 +160,10 @@ void Fiber::back() {
   // swap scheduler arranged fiber, and storing current context in this fiber
   // m_ctx.
   SetThis(t_threadFiber.get());
+#ifdef __LOG_FIBER_CHANGED
+  APEXSTORM_LOG_INFO(g_logger)
+      << "back: " << getId() << " -> " << t_threadFiber->getId();
+#endif
   if (swapcontext(&m_ctx, &t_threadFiber->m_ctx)) {
     APEXSTORM_ASSERT2(false, "swapcontext");
   }
@@ -166,6 +173,10 @@ void Fiber::swapIn() {
   // current thread run this fiber.
   SetThis(this);
 
+#ifdef __LOG_FIBER_CHANGED
+  APEXSTORM_LOG_INFO(g_logger)
+      << "swapIn: " << getId() << " -> " << Scheduler::GetMainFiber()->getId();
+#endif
   APEXSTORM_ASSERT(m_state != State::EXEC);
   m_state = State::EXEC;
 
@@ -181,6 +192,10 @@ void Fiber::swapIn() {
 void Fiber::swapOut() {
   // current thread run the scheduler arranged fiber.
   SetThis(Scheduler::GetMainFiber());
+#ifdef __LOG_FIBER_CHANGED
+  APEXSTORM_LOG_INFO(g_logger)
+      << "swapOut: " << Scheduler::GetMainFiber()->getId() << " -> " << getId();
+#endif
   // swap scheduler arranged fiber, and storing current context in this fiber
   // m_ctx.
   if (swapcontext(&m_ctx, &Scheduler::GetMainFiber()->m_ctx)) {

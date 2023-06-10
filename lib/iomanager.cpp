@@ -1,7 +1,9 @@
 #include "iomanager.h"
+#include "config.h"
 #include "log.h"
 #include "macro.h"
 #include "scheduler.h"
+#include "timer.h"
 #include <asm-generic/errno-base.h>
 #include <cerrno>
 #include <cstdint>
@@ -15,6 +17,7 @@
 #include <string>
 #include <sys/epoll.h>
 #include <type_traits>
+#include <vector>
 
 namespace apexstorm {
 
@@ -184,7 +187,7 @@ void IOManager::FdContext::triggerEvent(Event event) {
 }
 
 IOManager::IOManager(size_t threads, bool use_caller, const std::string &name)
-    : Scheduler(threads, use_caller, name) {
+    : Scheduler(threads, use_caller, name), TimerManager() {
   // initialize epoll file descriptor
   m_epfd = epoll_create(5000);
   APEXSTORM_ASSERT(m_epfd > 0);
@@ -470,8 +473,13 @@ void IOManager::tickle() {
 }
 
 bool IOManager::stopping() {
-  // add external condition
-  return Scheduler::stopping() && m_pendingEventCount == 0;
+  uint64_t timeout = 0;
+  return stopping(timeout);
+}
+
+bool IOManager::stopping(uint64_t &timeout) {
+  timeout = getNextTimer();
+  return timeout == ~0ull && m_pendingEventCount == 0 && Scheduler::stopping();
 }
 
 void IOManager::idle() {
@@ -484,7 +492,8 @@ void IOManager::idle() {
       events, [](epoll_event *ptr) { delete[] ptr; });
 
   while (true) {
-    if (stopping()) {
+    uint64_t next_timeout = 0;
+    if (stopping(next_timeout)) {
       APEXSTORM_LOG_INFO(g_logger)
           << "name=" << getName() << " idle stopping exit";
       break;
@@ -493,11 +502,17 @@ void IOManager::idle() {
     int rt = 0;
     do {
       static const int MAX_TIMEOUT = 5000;
+      if (next_timeout != ~0ull) {
+        next_timeout =
+            (int)next_timeout > MAX_TIMEOUT ? MAX_TIMEOUT : next_timeout;
+      } else {
+        next_timeout = MAX_TIMEOUT;
+      }
       // epoll_wait will blocking until:
       // 1. a file descriptor delivers an event;
       // 2. teh call is interrupted by a single handler;
       // 3. the timeout expires(MAX_TIMEOUT milliseconds);
-      rt = epoll_wait(m_epfd, events, MAX_EVENTS, MAX_TIMEOUT);
+      rt = epoll_wait(m_epfd, events, MAX_EVENTS, (int)next_timeout);
 
       // on success, return the amount of file descriptors which are in ready
       // state, or zero timeout expires. on failure, return -1 and set the
@@ -511,6 +526,14 @@ void IOManager::idle() {
         break;
       }
     } while (true);
+
+    std::vector<std::function<void()>> cbs;
+    listExpiredCb(cbs);
+    if (!cbs.empty()) {
+      // APEXSTORM_LOG_DEBUG(g_logger) << "on timer cbs.size=" << cbs.size();
+      schedule(cbs.begin(), cbs.end());
+      cbs.clear();
+    }
 
     // solve `rt` events
     for (int i = 0; i < rt; ++i) {
@@ -590,5 +613,7 @@ void IOManager::idle() {
     raw_ptr->swapOut();
   }
 }
+
+void IOManager::onTimerInsertedAtFront() { tickle(); }
 
 } // namespace apexstorm

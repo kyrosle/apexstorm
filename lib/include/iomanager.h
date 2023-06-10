@@ -4,6 +4,7 @@
 #include "fiber.h"
 #include "mutex.h"
 #include "scheduler.h"
+#include "timer.h"
 #include <atomic>
 #include <cstddef>
 #include <cstdint>
@@ -15,7 +16,7 @@
 namespace apexstorm {
 
 // IO coroutine scheduler basing on epoll.
-class IOManager : public Scheduler {
+class IOManager : public Scheduler, public TimerManager {
 public:
   typedef std::shared_ptr<IOManager> ptr;
   typedef RWMutex RWmutexType;
@@ -102,9 +103,11 @@ protected:
   void tickle() override;
   bool stopping() override;
   void idle() override;
+  void onTimerInsertedAtFront() override;
 
   // Resize the socket file descriptors container.
   void contextResize(size_t size);
+  bool stopping(uint64_t &timeout);
 
 private:
   // epoll file descriptor

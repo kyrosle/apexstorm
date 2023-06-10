@@ -48,8 +48,8 @@ public:
   typedef std::shared_ptr<ConfigVarBase> ptr;
 
   // Constructor
-  // @param[in] name config name[0-9a-z_.]
-  // @param[in] description config description
+  // @param name config name[0-9a-z_.]
+  // @param description config description
   ConfigVarBase(const std::string &name, const std::string &description = "")
       : m_name(name), m_description(description) {
     // transform name into lower chars.

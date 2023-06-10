@@ -356,6 +356,15 @@ asynchronous io,
 waiting data back, block_on epoll_wait
 
 epoll_create , epoll_ctl, epoll_wait
+
+more relevant introduction: [epoll_io_cp_zh](./notes/epoll_io_cpp_zh.md.md)
+
+```
+
+```cpp
+Timer --> addTimer() --> cancel()
+acquire internal time between current timer and its trigger time
+acquire timer needed trigger
 ```
 
 ## Socket Library

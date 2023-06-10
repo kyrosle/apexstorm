@@ -25,8 +25,8 @@ void test_fiber() {
   sockaddr_in addr;
   memset(&addr, 0, sizeof(addr));
   addr.sin_family = AF_INET;
-  addr.sin_port = htons(8080);
-  inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr.s_addr);
+  addr.sin_port = htons(80);
+  inet_pton(AF_INET, "39.156.66.10", &addr.sin_addr.s_addr);
 
   if (!connect(sock, (const sockaddr *)&addr, sizeof(addr))) {
   } else if (errno == EINPROGRESS) {
