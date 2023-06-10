@@ -87,7 +87,14 @@ bool Timer::reset(uint64_t ms, bool from_now) {
   // search this Timer, erase and add it again after modifing the start time and
   // next exactly execution time.
   auto it = m_manager->m_timers.find(shared_from_this());
+  // [tricks]: make the shared_ptr reference counts + 1,
+  // and then the operation of `std::set<>::erase()` will reduce the shared_ptr
+  // reference counts, avoiding this operation causing destructor current
+  // object. (otherwise it will core dump when calling `shared_from_this()` ..
+  // (UB))
+  auto t_ptr = *it;
   if (it == m_manager->m_timers.end()) {
+    t_ptr.reset();
     return false;
   }
   m_manager->m_timers.erase(it);
