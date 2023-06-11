@@ -66,10 +66,12 @@ bool Timer::refresh() {
   }
   // erase this Timer and refresh the timer params, and then insert it to the
   // TimerManager again
+  auto t_ptr = *it; // [tick]: same as `Timer::reset()`
   m_manager->m_timers.erase(it);
   // postponed the exactly execute time in Timer
   m_next = apexstorm::GetCurrentMS() + m_ms;
   m_manager->m_timers.insert(shared_from_this());
+  t_ptr.reset();
   return true;
 }
 
@@ -161,13 +163,19 @@ void TimerManager::listExpiredCb(std::vector<std::function<void()>> &cbs) {
   // select all expired timers.
   std::vector<Timer::ptr> expired;
 
-  {
+  { // value exist?
     RWMutexType::ReadLock lock(m_mutex);
     if (m_timers.empty()) {
       return;
     }
   }
   RWMutexType::WriteLock lock(m_mutex);
+  // check again, because we release the read-lock previously, others threads
+  // may lock it, and clean the timers set collections, and then it will cause
+  // here `m_timers->begin()` to nullptr.
+  if (m_timers.empty()) {
+    return;
+  }
 
   bool rollover = detectClockRollover(now_ms);
   if (!rollover && (*m_timers.begin())->m_next > now_ms) {

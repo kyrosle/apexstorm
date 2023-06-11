@@ -2,5 +2,6 @@
 .xmake/
 build/
 bin/
+log_check/*
 
 

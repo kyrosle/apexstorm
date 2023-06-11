@@ -1,5 +1,6 @@
 #include "scheduler.h"
 #include "fiber.h"
+#include "hook.h"
 #include "log.h"
 #include "macro.h"
 #include "thread.h"
@@ -163,7 +164,7 @@ void Scheduler::stop() {
 
 void Scheduler::run() {
   APEXSTORM_LOG_INFO(g_logger) << "run";
-
+  set_hook_enable(true);
   Fiber::GetThis();
   setThis();
 

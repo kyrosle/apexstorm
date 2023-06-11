@@ -222,13 +222,21 @@ Fiber::ptr Fiber::GetThis() {
 void Fiber::YieldToReady() {
   Fiber::ptr cur = GetThis();
   cur->m_state = State::READY;
-  cur->swapOut();
+  if (apexstorm::Scheduler::GetMainFiber()) {
+    cur->swapOut();
+  } else {
+    cur->back();
+  }
 }
 
 void Fiber::YieldToHold() {
   Fiber::ptr cur = GetThis();
   cur->m_state = State::HOLD;
-  cur->swapOut();
+  if (apexstorm::Scheduler::GetMainFiber()) {
+    cur->swapOut();
+  } else {
+    cur->back();
+  }
 }
 
 uint64_t Fiber::TotalFibers() { return s_fiber_count; }
@@ -270,7 +278,14 @@ void Fiber::MainFunc() { // -> !
   // smart pointer reference counting - 1
   cur.reset();
   // this fiber will be destructed calling ~Fiber.
-  raw_ptr->swapOut();
+  if (Scheduler::GetMainFiber()) {
+    raw_ptr->swapOut();
+  } else if (t_threadFiber) {
+    raw_ptr->back();
+  } else {
+    APEXSTORM_ASSERT2(false, "no runnable fiber fiber_id=" +
+                                 std::to_string(raw_ptr->getId()));
+  }
 
   APEXSTORM_ASSERT2(false,
                     "never reach fiber_id=" + std::to_string(raw_ptr->getId()));

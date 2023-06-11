@@ -367,6 +367,23 @@ acquire internal time between current timer and its trigger time
 acquire timer needed trigger
 ```
 
+```cpp
+     [Fiber]             [Timer]
+        |N                  |
+        |1                  |
+    [Thread]          [TimerManager]
+        |M                  |
+        |1                  |
+   [Scheduler] <---- [IOManager(epoll)]
+```
+
+## HOOK
+
+```cpp
+sleep  hook
+usleep hook
+```
+
 ## Socket Library
 
 ## Http Protocol Development

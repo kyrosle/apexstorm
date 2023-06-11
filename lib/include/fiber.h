@@ -69,6 +69,7 @@ public:
   // same as swapIn(), set current coroutine to target executor thread.
   void call();
 
+  // same as swapOut(), set current coroutine to target executor thread.
   void back();
 
   // Get the coroutine id.
@@ -98,6 +99,8 @@ public:
   // Coroutine execution function, -> !
   // @post return to the main fiber of thread
   static void MainFunc();
+  // Coroutine execution function(used by caller thread), -> !
+  // @post return to the main fiber of thread
   static void CallerMainFunc();
 
   // Return the current fiber id.

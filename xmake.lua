@@ -30,6 +30,7 @@ targets = {
   "test_scheduler",
   "test_iomanager",
   "test_timer",
+  "test_hook",
   "test_util",
 }
 

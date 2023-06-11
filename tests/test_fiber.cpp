@@ -19,11 +19,11 @@ void test_fiber() {
   {
     APEXSTORM_LOG_INFO(g_logger) << "main begin";
     apexstorm::Fiber::ptr fiber(new apexstorm::Fiber(run_in_fiber));
-    fiber->swapIn();
+    fiber->call();
     APEXSTORM_LOG_INFO(g_logger) << "main after swapIn";
-    fiber->swapIn();
+    fiber->call();
     APEXSTORM_LOG_INFO(g_logger) << "main after end";
-    fiber->swapIn();
+    fiber->call();
   }
   APEXSTORM_LOG_INFO(g_logger) << "main after end 2";
 }
@@ -31,7 +31,7 @@ void test_fiber() {
 int main() {
   apexstorm::Thread::SetName("main");
   std::vector<apexstorm::Thread::ptr> thrs;
-  for (int i = 0; i < 3; ++i) {
+  for (int i = 0; i < 1; ++i) {
     thrs.push_back(apexstorm::Thread::ptr(
         new apexstorm::Thread(&test_fiber, "name_" + std::to_string(i))));
   }

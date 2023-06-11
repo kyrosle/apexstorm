@@ -22,7 +22,13 @@
     "EPOLLWRBAND",
     "EPOLLWRNORM",
     "filestream",
+    "inited",
+    "Initer",
     "IOMANAGER",
+    "iovcnt",
+    "optlen",
+    "socketfd",
+    "thrs",
     "tparam",
     "xmake"
   ],

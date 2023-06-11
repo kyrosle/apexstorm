@@ -8,7 +8,7 @@ apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_ROOT();
 
 // static apexstorm::Timer::ptr timer1, timer2;
 void test_timer() {
-  apexstorm::IOManager iom(5, true, "test");
+  apexstorm::IOManager iom(10, true, "test");
   apexstorm::Timer::ptr timer1 = iom.addTimer(
       500,
       [&timer1]() {
@@ -16,6 +16,9 @@ void test_timer() {
         APEXSTORM_LOG_INFO(g_logger) << "Hello Timer1 static count=" << cnt;
         if (++cnt == 3) {
           timer1->reset(100, true);
+        }
+        if (cnt == 10) {
+          timer1->cancel();
         }
       },
       true);
@@ -26,6 +29,9 @@ void test_timer() {
         APEXSTORM_LOG_INFO(g_logger) << "Hello Timer2 static count=" << cnt;
         if (++cnt == 5) {
           timer2->reset(100, true);
+        }
+        if (cnt == 10) {
+          timer2->cancel();
         }
       },
       true);
