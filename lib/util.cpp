@@ -10,7 +10,8 @@
 #include "log.h"
 
 namespace apexstorm {
-apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_NAME("system");
+
+static apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_NAME("system");
 
 pid_t GetThreadId() { return syscall(SYS_gettid); }
 

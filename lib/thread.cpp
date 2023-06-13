@@ -10,10 +10,10 @@
 
 namespace apexstorm {
 
+static apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_NAME("system");
+
 static thread_local Thread *t_thread = nullptr;
 static thread_local std::string t_thread_name = "UNKNOWN";
-
-static apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_NAME("system");
 
 Thread *Thread::GetThis() { return t_thread; }
 

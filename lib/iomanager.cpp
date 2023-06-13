@@ -21,6 +21,8 @@
 
 namespace apexstorm {
 
+static apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_NAME("system");
+
 // -- EPOLL_EVENTS(Event) stringstream <<
 std::ostream &operator<<(std::ostream &os, IOManager::Event e) {
   return os << EPOLL_EVENTS(e);
@@ -144,8 +146,6 @@ bool operator!(const IOManager::Event &e) {
 bool operator!=(const IOManager::Event l, const IOManager::Event r) {
   return !(l == r);
 }
-
-static apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_NAME("system");
 
 IOManager::FdContext::EventContext &
 IOManager::FdContext::getContext(IOManager::Event event) {

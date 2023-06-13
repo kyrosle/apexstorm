@@ -15,6 +15,9 @@
 
 namespace apexstorm {
 
+// logger in current module.
+static apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_NAME("system");
+
 // allocator for fiber id.
 static std::atomic<uint64_t> s_fiber_id = {0};
 // total amount of fibers.
@@ -36,9 +39,6 @@ public:
   static void Dealloc(void *vp, size_t size) { return free(vp); }
 };
 using StackALloc = MallocStackAllocator;
-
-// logger in current module.
-static Logger::ptr g_logger = APEXSTORM_LOG_NAME("system");
 
 // --- constructor and destructor
 

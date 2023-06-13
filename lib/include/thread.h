@@ -22,6 +22,7 @@
 #include <thread>
 
 #include "mutex.h"
+#include "noncopyable.h"
 
 // pthread_xxx
 // std::thread, <pthread>
@@ -29,7 +30,7 @@
 namespace apexstorm {
 
 // Thread encapsulation, using system api: `pthread_xxx`.
-class Thread {
+class Thread : Noncopyable {
 public:
   typedef std::shared_ptr<Thread> ptr;
 
