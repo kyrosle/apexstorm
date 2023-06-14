@@ -11,20 +11,20 @@
 apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_ROOT();
 
 void test_sleep() {
-  apexstorm::IOManager iom(1);
-  iom.schedule([]() {
+  apexstorm::IOManager *iom = apexstorm::IOManager::GetThis();
+  iom->schedule([]() {
     sleep(2);
     APEXSTORM_LOG_INFO(g_logger) << "sleep 2";
   });
 
-  iom.schedule([]() {
+  iom->schedule([]() {
     sleep(3);
     APEXSTORM_LOG_INFO(g_logger) << "sleep 3";
   });
   APEXSTORM_LOG_INFO(g_logger) << "test_sleep";
 }
 
-void test_socket() {
+void socket_operation() {
   int sock = socket(AF_INET, SOCK_STREAM, 0);
   sockaddr_in addr;
   memset(&addr, 0, sizeof(addr));
@@ -32,7 +32,7 @@ void test_socket() {
   // addr.sin_port = htons(8080);
   // inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr.s_addr);
   addr.sin_port = htons(80);
-  inet_pton(AF_INET, "110.242.68.66", &addr.sin_addr.s_addr);
+  inet_pton(AF_INET, "39.156.66.10", &addr.sin_addr.s_addr);
 
   APEXSTORM_LOG_INFO(g_logger) << "begin connect";
   int rt = connect(sock, (const sockaddr *)&addr, sizeof(addr));
@@ -64,8 +64,8 @@ void test_socket() {
 }
 
 int main() {
-  // test_sleep();
-  // test_socket();
   apexstorm::IOManager iom;
-  iom.schedule(test_socket);
+  iom.schedule(test_sleep);
+  iom.schedule(socket_operation);
+  iom.schedule(socket_operation);
 }

@@ -462,8 +462,28 @@ if (level == SOL_SOCKET) {
 
 ## example
 
+测试情景： 在一个线程上开启协程调度， 并且执行两个 http 访问和一个定时器任务
+
 ```cpp
-void test_socket() {
+// 定时器任务
+void test_sleep() {
+  apexstorm::IOManager *iom = apexstorm::IOManager::GetThis();
+  // 睡眠 2 s
+  iom->schedule([]() {
+    sleep(2);
+    APEXSTORM_LOG_INFO(g_logger) << "sleep 2";
+  });
+
+  // 睡眠 3 s
+  iom->schedule([]() {
+    sleep(3);
+    APEXSTORM_LOG_INFO(g_logger) << "sleep 3";
+  });
+  APEXSTORM_LOG_INFO(g_logger) << "test_sleep";
+}
+
+// socket 任务
+void socket_operation() {
   // 当前线程已经开启 hook
 
   // 如阻塞网络io配置
@@ -518,8 +538,10 @@ void test_socket() {
 int main() {
   // 启动单线程的多协程IO调度器
   apexstorm::IOManager iom;
-  // 加入调度任务 test_socket
-  iom.schedule(test_socket);
+  // 加入3个调度任务, 理论编写顺序与执行顺序无关
+  iom.schedule(test_sleep);
+  iom.schedule(socket_operation);
+  iom.schedule(socket_operation);
 }
 ```
 
@@ -527,34 +549,69 @@ int main() {
 
 ```log
 fiber    log     logger           code line               log message
- id     level
+number
 0       [DEBUG] [system]        lib/fiber.cpp:57        Fiber::Fiber
 0       [DEBUG] [system]        lib/fiber.cpp:89        Fiber::Fiber id=1
-0       [INFO]  [system]        lib/scheduler.cpp:107   0x7ffeb25ff610 stopped
+0       [INFO]  [system]        lib/scheduler.cpp:107   0x7fffc8edc510 stopped
 1       [INFO]  [system]        lib/scheduler.cpp:166   run
 1       [DEBUG] [system]        lib/fiber.cpp:89        Fiber::Fiber id=2
 1       [DEBUG] [system]        lib/fiber.cpp:89        Fiber::Fiber id=3
-3       [INFO]  [root]          tests/test_hook.cpp:36  begin connect
+3       [INFO]  [root]  tests/test_hook.cpp:24  test_sleep      [<开始睡眠任务>]
+3       [INFO]  [root]  tests/test_hook.cpp:37  begin connect   [<开始socket connect>]
+1       [DEBUG] [system]        lib/fiber.cpp:89        Fiber::Fiber id=4
+4       [INFO]  [root]  tests/test_hook.cpp:37  begin connect   [<开始是socket connect>]
+1       [DEBUG] [system]        lib/fiber.cpp:89        Fiber::Fiber id=5
+1       [DEBUG] [system]        lib/fiber.cpp:89        Fiber::Fiber id=6
 2       [INFO]  [system]        lib/iomanager.cpp:486   Idle
-3       [INFO]  [root]          tests/test_hook.cpp:38  connect rt=0 errno=115
-3       [INFO]  [root]          tests/test_hook.cpp:46  send rt=19 errno=115
-3       [INFO]  [system]        lib/hook.cpp:168        do_io<recv>      <---- 执行了hook do_io yield to Hold
-3       [INFO]  [system]        lib/hook.cpp:170        do_io<recv>      <---- 从 yield to Hold 回来
-3       [INFO]  [root]          tests/test_hook.cpp:55  recv rt=300 errno=11
-3       [INFO]  [root]          tests/test_hook.cpp:62  HTTP/1.1 200 OK
-Date: Tue, 13 Jun 2023 12:50:49 GMT
+3       [INFO]  [root]  tests/test_hook.cpp:39  connect rt=0 errno=115
+3       [INFO]  [root]  tests/test_hook.cpp:47  send rt=19 errno=115
+3       [INFO]  [system]        lib/hook.cpp:191        do_io<recv>
+4       [INFO]  [root]  tests/test_hook.cpp:39  connect rt=0 errno=11
+4       [INFO]  [root]  tests/test_hook.cpp:47  send rt=19 errno=11
+4       [INFO]  [system]        lib/hook.cpp:191        do_io<recv>
+3       [INFO]  [system]        lib/hook.cpp:193        do_io<recv>
+3       [INFO]  [root]  tests/test_hook.cpp:56  recv rt=300 errno=11
+3       [INFO]  [root]  tests/test_hook.cpp:63  HTTP/1.1 200 OK [<其中一个socket返回数据>]
+Date: Wed, 14 Jun 2023 03:36:27 GMT
 Server: Apache
 Last-Modified: Tue, 12 Jan 2010 13:48:00 GMT
 ETag: "51-47cf7e6ee8400"
 Accept-Ranges: bytes
 Content-Length: 81
 Cache-Control: max-age=86400
-Expires: Wed, 14 Jun 2023 12:50:49 GMT
+Expires: Thu, 15 Jun 2023 03:36:27 GMT
 Connection: Close
 Content-Type: text/html
+
+
 1       [DEBUG] [system]        lib/fiber.cpp:117       Fiber::~Fiber id=3
+4       [INFO]  [system]        lib/hook.cpp:193        do_io<recv>
+4       [INFO]  [root]  tests/test_hook.cpp:56  recv rt=381 errno=11
+4       [INFO]  [root]  tests/test_hook.cpp:63  HTTP/1.1 200 OK [<其中一个socket返回数据>]
+Date: Wed, 14 Jun 2023 03:36:27 GMT
+Server: Apache
+Last-Modified: Tue, 12 Jan 2010 13:48:00 GMT
+ETag: "51-47cf7e6ee8400"
+Accept-Ranges: bytes
+Content-Length: 81
+Cache-Control: max-age=86400
+Expires: Thu, 15 Jun 2023 03:36:27 GMT
+Connection: Close
+Content-Type: text/html
+
+<html>
+<meta http-equiv="refresh" content="0;url=http://www.baidu.com/">
+</html>
+
+1       [DEBUG] [system]        lib/fiber.cpp:117       Fiber::~Fiber id=4
+1       [DEBUG] [system]        lib/fiber.cpp:89        Fiber::Fiber id=7
+5       [INFO]  [root]  tests/test_hook.cpp:17  sleep 2       [<sleep 2 秒 结束>]
+1       [DEBUG] [system]        lib/fiber.cpp:117       Fiber::~Fiber id=5
+6       [INFO]  [root]  tests/test_hook.cpp:22  sleep 3       [<sleep 3 秒 结束>]
+1       [DEBUG] [system]        lib/fiber.cpp:117       Fiber::~Fiber id=6
 2       [INFO]  [system]        lib/iomanager.cpp:497   name= idle stopping exit
 1       [INFO]  [system]        lib/scheduler.cpp:278   idle fiber term
+1       [DEBUG] [system]        lib/fiber.cpp:117       Fiber::~Fiber id=7
 1       [DEBUG] [system]        lib/fiber.cpp:117       Fiber::~Fiber id=2
 0       [DEBUG] [system]        lib/fiber.cpp:117       Fiber::~Fiber id=1
 0       [DEBUG] [system]        lib/fiber.cpp:117       Fiber::~Fiber id=0
