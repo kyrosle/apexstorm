@@ -1,7 +1,7 @@
-#include "../include/apexstorm.h"
-#include "../include/iomanager.h"
-#include "../include/timer.h"
+#include "apexstorm.h"
+#include "iomanager.h"
 #include "log.h"
+#include "timer.h"
 #include <memory>
 
 apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_ROOT();

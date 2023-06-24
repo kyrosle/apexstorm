@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2023
  *
  */
-#include "../lib/include/config.h"
-#include "../lib/include/log.h"
+#include "config.h"
+#include "log.h"
 #include "yaml-cpp/node/node.h"
 #include "yaml-cpp/node/parse.h"
 #include <cstddef>

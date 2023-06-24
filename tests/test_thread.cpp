@@ -8,9 +8,9 @@
  * @copyright Copyright (c) 2023
  *
  */
-#include "../include/thread.h"
 #include "config.h"
 #include "log.h"
+#include "thread.h"
 #include "util.h"
 #include "yaml-cpp/node/node.h"
 #include "yaml-cpp/node/parse.h"

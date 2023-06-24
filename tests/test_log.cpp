@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2023
  *
  */
-#include "../lib/include/log.h"
-#include "../lib/include/util.h"
+#include "log.h"
+#include "util.h"
 #include <cstdint>
 #include <iostream>
 #include <thread>

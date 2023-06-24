@@ -1,5 +1,5 @@
-#include "../include/apexstorm.h"
-#include "../include/iomanager.h"
+#include "apexstorm.h"
+#include "iomanager.h"
 #include "log.h"
 #include "macro.h"
 #include <arpa/inet.h>

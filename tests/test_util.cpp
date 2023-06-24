@@ -1,7 +1,4 @@
-#include "../include/apexstorm.h"
-#include "log.h"
-#include "macro.h"
-#include "util.h"
+#include "apexstorm.h"
 #include <assert.h>
 
 apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_ROOT();

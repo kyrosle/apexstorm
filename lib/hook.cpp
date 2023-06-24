@@ -7,7 +7,6 @@
 #include "scheduler.h"
 #include "util.h"
 #include "yaml-cpp/emittermanip.h"
-
 #include <asm-generic/errno-base.h>
 #include <asm-generic/errno.h>
 #include <asm-generic/ioctls.h>
@@ -27,11 +26,10 @@
 
 static apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_NAME("system");
 
+namespace apexstorm {
 static apexstorm::ConfigVar<int>::ptr g_tcp_connect_timeout =
     apexstorm::Config::Lookup("tcp.connect.timeout", 5000,
                               "tcp connect timeout");
-
-namespace apexstorm {
 
 static thread_local bool t_hook_enable = false;
 

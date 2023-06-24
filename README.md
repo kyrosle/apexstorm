@@ -450,6 +450,80 @@ more relevant introduction: [hook_zh](./notes/hook_zh.md)
 
 ## Socket Library
 
+```cpp
+Address -- [IPAddress] -- [IPv4Address] / [IPv6Address]
+  |  \
+  |    \ [UnixAddress] (same machine)
+  |
+Socket
+```
+
+Address: the base of all address type, corresponding `sockaddr` type,
+providing host lookup and network interface lookup.
+
+IPAddress: basing on `Address`, providing abilities for relevant port number,
+and network mask, broadcast address, network segment address.
+
+IPv4Address -> `sockaddr_in`
+
+IPv6Address -> `sockaddr_in6`
+
+UnixAddress -> `sockaddr_un`
+
+socket address:
+
+```c
+struct sockaddr
+{
+    unsigned short sa_family; // protocol cluster
+    char sa_data[14];         // address metadata
+};
+struct sockaddr_in
+{
+    unsigned short sin_family; // AF_INET
+    unsigned short sin_port;   // port number
+    struct in_addr sin_addr;   // IPv4 use a uint32_t number
+    char sin_zero[8];          // fill with 0
+};
+
+struct sockaddr_in6
+{
+    unsigned short sin6_family; // AF_INET6
+    in_port_t sin6_port;        // port number
+    uint32_t sin6_flowinfo;     // IPv6 flow control information
+    struct in6_addr sin6_addr;  // IPv6 address, which is a 128 bit structure
+    uint32_t sin6_scope_id;     // IPv6 scope-id
+};
+
+struct sockaddr_un
+{
+    unsigned short sun_family;  // AF_UNIX
+    char sun_path[108];         // path string
+};
+```
+
+Socket(self_shared_ptr, Noncopyable):
+
+metadata:
+
+- file descriptor(socket fd)
+- address type(AF_INET, AF_INET6, AF_UNIX)
+- socket type(SOCKET_STREAM, SOCKET_DRAM)
+- protocol type(NO_DELAY)
+- whether is connected
+- local address and remote address
+
+provided method:
+
+- create tcp socket, udp socket, unix socket
+- set socket option, get socket option (based on hooked)
+- bind/connect/listen (based on hooked)
+- accept, close (based on hooked)
+- send data / receive data (based on hooked)
+- get local address / get remote address
+- get socket type, address type, protocol type
+- cancel socket read/write event
+
 ## Http Protocol Development
 
 ## Distributed Protocol
