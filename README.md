@@ -524,6 +524,11 @@ provided method:
 - get socket type, address type, protocol type
 - cancel socket read/write event
 
+## Serializer and Deserializer(ByteArray)
+
+write(int, float, int64,...)
+read (int, float, int64,...)
+
 ## Http Protocol Development
 
 ## Distributed Protocol

@@ -5,6 +5,7 @@
     "Appender",
     "appenders",
     "baddr",
+    "BYTEARRAY",
     "datas",
     "dlsym",
     "endipv",
@@ -25,6 +26,8 @@
     "EPOLLWRBAND",
     "EPOLLWRNORM",
     "filestream",
+    "Fint",
+    "Fuint",
     "GETLEASE",
     "GETPIPE",
     "inited",
@@ -40,6 +43,8 @@
     "socketfd",
     "thrs",
     "tparam",
+    "varint",
+    "Vint",
     "xmake"
   ],
 }

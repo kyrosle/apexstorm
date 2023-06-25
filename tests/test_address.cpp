@@ -8,7 +8,7 @@
 
 apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_ROOT();
 
-void test() {
+void test_basic() {
   std::vector<apexstorm::Address::ptr> addrs;
   APEXSTORM_LOG_INFO(g_logger) << "begin";
   bool v = apexstorm::Address::Lookup(addrs, "www.baidu.com");
