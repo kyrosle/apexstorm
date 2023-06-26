@@ -1,4 +1,4 @@
-add_rules("mode.debug", "mode.release")
+add_rules("mode.debug", "mode.release", "mode.releasedbg")
 add_cxflags("-fmacro-prefix-map=$pwd/=.")
 set_languages("c99", "cxx11")
 

@@ -7,6 +7,7 @@ statement
 Fedora38 desktop
 gcc 13.1
 xmake 2.4
+in fedora: sudo dnf install boost-devel
 
 ## Project Environment
 
@@ -528,6 +529,152 @@ provided method:
 
 write(int, float, int64,...)
 read (int, float, int64,...)
+
+ZipZag protocol:
+Put the sign bit in the lowest bit.
+
+Serializer:
+
+```mermaid
+sequenceDiagram
+  participant b as ByteArray
+  Note right of b: The internal storage structure is a linked list of multiple nodes, each node has a fixed size
+  participant int8_t
+  participant uint8_t
+  participant int16_t
+  participant uint16_t
+  participant int32_t
+  participant uint32_t
+  participant int64_t
+  participant uint64_t
+  participant float
+  participant double
+  participant string
+  b->>+int8_t: writeFint8()
+  b->>+uint8_t: writeFuint8()
+  b->>+int16_t: writeFint16()
+  b->>+uint16_t: writeFuint16()
+  b->>+int32_t: writeFint32()
+  b->>+uint32_t: writeFuint32()
+  b->>+int64_t: writeFint64()
+  b->>+uint64_t: writeFuint64()
+  b->>+float: writeFloat()
+  b->>+double: writeDouble()
+  b->>+string: writeStringF16()
+  b->>+string: writeStringF32()
+  b->>+string: writeStringF64()
+  b->>+string: writeStringVint()
+  b->>+string: writeStringWithoutLength()
+```
+
+Deserializer:
+
+```mermaid
+sequenceDiagram
+  participant b as ByteArray
+  Note right of b: The internal storage structure is a linked list of multiple nodes, each node has a fixed size
+  participant int8_t
+  participant uint8_t
+  participant int16_t
+  participant uint16_t
+  participant int32_t
+  participant uint32_t
+  participant int64_t
+  participant uint64_t
+  participant float
+  participant double
+  participant string
+  int8_t->>+b: readFint8()
+  uint8_t->>+b: readFuint8()
+  int16_t->>+b: readFint16()
+  uint16_t->>+b: readFuint16()
+  int32_t->>+b: readFint32()
+  uint32_t->>+b: readFuint32()
+  int64_t->>+b: readFint64()
+  uint64_t->>+b: readFuint64()
+  float->>+b: readFloat()
+  double->>+b: readDouble()
+  string->>+b: readStringF16()
+  string->>+b: readStringF32()
+  string->>+b: readStringF64()
+  string->>+b: readStringVint()
+```
+
+compression:
+
+```cpp
+void ByteArray::writeUint32(uint32_t value) {
+  uint8_t tmp[5]; /* 4 byte 32 bit */
+  // compression
+  uint8_t i = 0;
+  while (value >= 0x80) {
+    tmp[i++] = (value & 0x7F) | 0x80;
+    value >>= 7;
+  }
+  tmp[i++] = value;
+  write(tmp, i);
+}
+```
+
+decompression:
+
+```cpp
+uint32_t ByteArray::readUint32() {
+  uint32_t result = 0;
+  // decompression
+  for (uint8_t i = 0; i < 32; i += 7) {
+    uint8_t b = readFuint8();
+    if (b < 0x80) {
+      result |= ((uint32_t)b) << i;
+      break;
+    } else {
+      result |= (((uint32_t)(b & 0x7f)) << i);
+    }
+  }
+  return result;
+}
+```
+
+The above code shows the compression and decompression method in the ByteArray class, and here is a brief explanation of its implementation:
+
+- `0x80`:
+  - In the process of compression, it is used to mark whether there are numbers in the high bits.
+    When the upper 7 bits of the number to be compressed are not all 0, this bit is set to 1,
+    indicating that there are still numbers to be compressed; otherwise, it is set to 0.
+  - During decompression, this bit is used to determine whether the end of the byte stream has been reached.
+- `0x7f`:
+  - In the process of compression, it is used to store valid data.
+    Each byte can only represent 7 binary digits temporarily, 0x7F limits the number to 7 bits.
+  - In the process of decompression, it is used to extract the valid data in each byte
+- writeUint32 () method:
+  This method is used to compress a `32-bit unsigned integer` into a `variable-length stream of bytes` and write it to the ByteArray.
+  - This method first defines a uint8_t array of size `5`(tmp[5]), which is filled in the while loop.
+  - For the `value` value,
+    - take the value from the following 7 bits each time,
+    - mark the highest bit as 1 to indicate that there is still data behind,
+    - mark the remaining 7 bits as the value,
+    - write it into the tmp array until the value is less than 0x80.
+  - At this time, only the value is written to the `tmp array`. Finally, the `tmp array` is written to the ByteArray.
+- readUint32 () method:
+  This method is used to decompress a `variable-length byte stream` into a `32-bit unsigned integer` and return its value.
+  - In the loop,
+    - one byte b is read from the ByteArray each time
+      - written to the result until b is less than 0x80(indicating that there is no more data)
+      - and the result is shifted to the left by `i` bits and returned.
+
+This method shows the process of variable-length compression and decompression of the byte stream.
+
+Benefiting from the design of variable length, the compressed length of each number may be different.
+
+When the number is less than 0x80 (128), it is the last part of the data. At this time, there is no need to mark symbols.
+
+Mark the upper part of it as 1, indicating that there is data behind it,
+and the lower seven bits store the actual value of the number.
+
+The decompression process is also very simple.
+According to the compression process, from the upper part to the lower part,
+the previous result is shifted to the left by 7 bits each time,
+and the new lower 7 bits are OR with it, and finally the original number is obtained.
 
 ## Http Protocol Development
 
