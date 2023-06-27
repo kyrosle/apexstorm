@@ -19,6 +19,10 @@ set_targetdir("bin")
 add_includedirs("lib/include")
 add_files("lib/*.cpp")
 
+-- add http parser(form: https://github.com/mongrel2/mongrel2/tree/master/src/http11)
+add_includedirs("packages/http11")
+add_files("packages/http11/*.cpp")
+
 -- target
 -- `main` in src/main.cpp
 -- others in tests/*.cpp
@@ -35,6 +39,7 @@ targets = {
   "test_address",
   "test_socket",
   "test_bytearray",
+  "test_http",
   "test_util",
 }
 

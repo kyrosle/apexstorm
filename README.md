@@ -678,6 +678,49 @@ and the new lower 7 bits are OR with it, and finally the original number is obta
 
 ## Http Protocol Development
 
+HTTP/1.1 - API
+
+HttpRequest:
+HttpResponse:
+
+```http
+GET / HTTP/1.1
+Host: www.baidu.com
+```
+
+```http
+HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Cache-Control: no-cache
+Connection: keep-alive
+Content-Length: 9508
+```
+
+uri: http://xxx.com:80/page/yyy?id=1&v=20#fr
+|uri|type|
+|---|---|
+|http| protocol|
+|xxx.com| host|
+|80| port number|
+|/page/yyy| path|
+|id=1&v| query|
+|fr| fragment|
+
+ragel [mongrel2](https://github.com/mongrel2/mongrel2/tree/master) (lib/include/http/http11)
+
+- http11_common.h
+- http11_parser.h
+- http11_parser.rl
+- httpclient_parser.h
+- httpclient_parser.rl
+- http11_parser.rl.cpp
+- httpclient_parser.rl.cpp
+
+```cmd
+ragel -G2  http11_parser.rl -o http11_parser.rl.cpp
+ragel -G2 httpclient_parser.rl -o httpclient_parser.rl.cpp
+```
+
 ## Distributed Protocol
 
 ## Recommender System

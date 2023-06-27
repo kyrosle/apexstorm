@@ -18,8 +18,15 @@
 #include <string>
 #include <sys/syscall.h>
 #include <sys/types.h>
+#include <type_traits>
 #include <unistd.h>
 #include <vector>
+
+#if defined(__GNUC__) || defined(__clang__)
+#include <cxxabi.h>
+#endif
+#include <cstdlib>
+#include <iostream>
 
 namespace apexstorm {
 
@@ -38,4 +45,37 @@ uint64_t GetCurrentMS();
 uint64_t GetCurrentUS();
 
 } // namespace apexstorm
+
+namespace debug_utils {
+
+template <class T> std::string cpp_type_name() {
+  const char *name = typeid(T).name();
+#if defined(__GNUC__) || defined(__clang__)
+  int status;
+  char *p = abi::__cxa_demangle(name, 0, 0, &status);
+  std::string s = p;
+  std::free(p);
+#else
+  std::string s = name;
+#endif
+  if (std::is_const<typename std::remove_reference<T>::type>::value) {
+    s += " const";
+  }
+  if (std::is_volatile<typename std::remove_reference<T>::type>::value) {
+    s += " volatile";
+  }
+  if (std::is_lvalue_reference<T>::value) {
+    s += " &";
+  }
+  if (std::is_rvalue_reference<T>::value) {
+    s += " &&";
+  }
+  return s;
+}
+
+template <class T> std::string cpp_value_type_name(T value) {
+  return cpp_type_name<T>();
+}
+
+} // namespace debug_utils
 #endif
