@@ -2,6 +2,9 @@ add_rules("mode.debug", "mode.release", "mode.releasedbg")
 add_cxflags("-fmacro-prefix-map=$pwd/=.")
 set_languages("c99", "cxx11")
 
+set_config("cc", "clang")
+set_config("ld", "clang++")
+
 -- add auto create `complie_commands.json` file in build/
 -- so that the clangd language server can provide correct instructions.
 -- including the package headers.
@@ -17,6 +20,7 @@ set_targetdir("bin")
 
 -- include self includes
 add_includedirs("lib/include")
+-- add_includedirs("lib/include/http")
 add_files("lib/*.cpp")
 
 -- add http parser(form: https://github.com/mongrel2/mongrel2/tree/master/src/http11)
@@ -40,6 +44,7 @@ targets = {
   "test_socket",
   "test_bytearray",
   "test_http",
+  "test_http_parser",
   "test_util",
 }
 

@@ -1,6 +1,8 @@
 #ifndef __APEXSTORM_HTTP_H__
 #define __APEXSTORM_HTTP_H__
 
+#include "log.h"
+#include "util.h"
 #include <algorithm>
 #include <cstdint>
 #include <iostream>
@@ -18,6 +20,7 @@
 namespace apexstorm {
 
 namespace http {
+
 /*
   refer to https://github.com/nodejs/http-parser/blob/main/http_parser.h
  */
@@ -147,10 +150,6 @@ HttpMethod CharsToHttpMethod(const char *m);
 const char *HttpMethodToString(const HttpMethod &m);
 const char *HttpStatusToString(const HttpStatus &s);
 
-struct CaseInsensitiveLess {
-  bool operator()(const std::string &lhs, const std::string &rhs) const;
-};
-
 template <class MapType, class T>
 bool checkGetAs(const MapType &m, const std::string &key, T &val,
                 const T &def = T()) {
@@ -163,13 +162,15 @@ bool checkGetAs(const MapType &m, const std::string &key, T &val,
     val = boost::lexical_cast<T>(it->second);
     return false;
   } catch (...) {
+    APEXSTORM_LOG_ERROR(g_logger) << "Failed to convert '" << *it << "' to '"
+                                  << debug_utils::cpp_type_name<T>() << "'.";
     val = def;
   }
   return false;
 }
 
 template <class MapType, class T>
-T getAs(const MapType &m, const std::string &key, const T &def = T()) {
+T getAs(const MapType &m, const std::string &key, const T &def) {
   auto it = m.find(key);
   if (it != m.end()) {
     return def;
@@ -177,9 +178,18 @@ T getAs(const MapType &m, const std::string &key, const T &def = T()) {
   try {
     return boost::lexical_cast<T>(it->second);
   } catch (...) {
+    APEXSTORM_LOG_ERROR(g_logger) << "Failed to convert '" << *it << "' to '"
+                                  << debug_utils::cpp_type_name<T>() << "'.";
   }
   return def;
 }
+
+template <class MapType, class T>
+T getAs(const MapType &m, const std::string &key, const T &def = T());
+
+struct CaseInsensitiveLess {
+  bool operator()(const std::string &lhs, const std::string &rhs) const;
+};
 
 class HttpRequest {
 public:
@@ -231,8 +241,7 @@ public:
     return checkGetAs(m_headers, key, val, def);
   }
 
-  template <class T>
-  T getHeaderAs(const std::string &key, T &val, const T &def = T()) {
+  template <class T> T getHeaderAs(const std::string &key, const T &def = T()) {
     return getAs(m_headers, key, def);
   }
 
@@ -256,7 +265,8 @@ public:
     return getAs(m_cookies, key, def);
   }
 
-  std::ostream &dump(std::ostream &os);
+  std::ostream &dump(std::ostream &os) const;
+  std::string toString() const;
 
 private:
   HttpMethod m_method;
@@ -307,12 +317,12 @@ public:
     return checkGetAs(m_headers, key, val, def);
   }
 
-  template <class T>
-  T getHeaderAs(const std::string &key, T &val, const T &def = T()) {
+  template <class T> T getHeaderAs(const std::string &key, const T &def = T()) {
     return getAs(m_headers, key, def);
   }
 
-  std::ostream &dump(std::ostream &os);
+  std::ostream &dump(std::ostream &os) const;
+  std::string toString() const;
 
 private:
   HttpStatus m_status;
