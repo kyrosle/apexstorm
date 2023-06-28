@@ -18,9 +18,12 @@ namespace http {
 
 static apexstorm::Logger::ptr g_logger = APEXSTORM_LOG_NAME("system");
 
+// configure the request buffer size for safety reason.
 static apexstorm::ConfigVar<uint64_t>::ptr g_http_request_buffer_size =
     apexstorm::Config::Lookup("http.request.buffer_size", (uint64_t)(4 * 1024),
                               "http request buffer size");
+
+// configure the request max body size for safety reason.
 static apexstorm::ConfigVar<uint64_t>::ptr g_http_request_max_body_size =
     apexstorm::Config::Lookup("http.request.max_body_size",
                               (uint64_t)(64 * 1024 * 1024),
@@ -29,6 +32,7 @@ static apexstorm::ConfigVar<uint64_t>::ptr g_http_request_max_body_size =
 static uint64_t s_http_request_buffer_size = 0;
 static uint64_t s_http_request_max_body_size = 0;
 
+// Initialize relevant Request setting before main function.
 struct _RequestSizeIniter {
   _RequestSizeIniter() {
     s_http_request_buffer_size = g_http_request_buffer_size->getValue();
@@ -52,7 +56,8 @@ void on_request_method(void *data, const char *at, size_t len) {
   HttpMethod m = CharsToHttpMethod(at);
 
   if (m == HttpMethod::HIT_INVALID_METHOD) {
-    APEXSTORM_LOG_WARN(g_logger) << "invalid http request method ";
+    APEXSTORM_LOG_WARN(g_logger)
+        << "invalid http request method: " << std::string(at, len);
     parser->setError(1000);
     return;
   }
@@ -80,6 +85,8 @@ void on_request_version(void *data, const char *at, size_t len) {
   HttpRequestParer *parser = static_cast<HttpRequestParer *>(data);
   uint8_t v = 0;
   if (strncmp(at, "HTTP/1.1", len) == 0) {
+    v = 0x11;
+  } else if (strncmp(at, "HTTP/1.0", len) == 0) {
     v = 0x10;
   } else {
     APEXSTORM_LOG_WARN(g_logger)
@@ -91,7 +98,7 @@ void on_request_version(void *data, const char *at, size_t len) {
 }
 
 void on_request_header_done(void *data, const char *at, size_t len) {
-  HttpRequestParer *parser = static_cast<HttpRequestParer *>(data);
+  // HttpRequestParer *parser = static_cast<HttpRequestParer *>(data);
 }
 
 void on_request_http_field(void *data, const char *field, size_t flen,
@@ -99,13 +106,15 @@ void on_request_http_field(void *data, const char *field, size_t flen,
   HttpRequestParer *parser = static_cast<HttpRequestParer *>(data);
   if (flen == 0) {
     APEXSTORM_LOG_WARN(g_logger) << "invalid http request field length == 0";
-    parser->setError(1002);
+    // parser->setError(1002);
   }
+  // APEXSTORM_LOG_DEBUG(g_logger) << "http field: " << std::string(field, flen)
+  //                               << " -> " << std::string(value, vlen);
   parser->getData()->setHeader(std::string(field, flen),
                                std::string(value, vlen));
 }
 
-HttpRequestParer::HttpRequestParer() {
+HttpRequestParer::HttpRequestParer() : m_error(0) {
   m_data.reset(new apexstorm::http::HttpRequest);
   http_parser_init(&m_parser);
   m_parser.request_method = on_request_method;
