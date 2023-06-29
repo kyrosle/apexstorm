@@ -264,6 +264,10 @@ private:
   Address::ptr m_remoteAddress;
 };
 
+inline std::ostream &operator<<(std::ostream &os, const Socket &sock) {
+  return sock.dump(os);
+}
+
 } // namespace apexstorm
 
 #endif

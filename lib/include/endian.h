@@ -33,18 +33,12 @@ byteswap(T value) {
 #define APEXSTORM_BYTE_ORDER APEXSTORM_BIG_ENDIAN
 #endif
 
-// #if BYTE_ORDER == BIG_ENDIAN
-// #define APEXSTORM_BYTE_ORDER APEXSTORM_BIG_ENDIAN
-// #else
-// #define APEXSTORM_BYTE_ORDER APEXSTORM_LITTER_ENDIAN
-// #endif
-
-#if APEXSTORM_BYTE_ORDER == APEXSTORM_BIG_ENDIAN
+#if APEXSTORM_BYTE_ORDER == APEXSTORM_LITTLE_ENDIAN
 extern "C++" template <class T> T byteswapOnLittleEndian(T t) {
   return byteswap(t);
 }
 extern "C++" template <class T> T byteswapOnBigEndian(T t) { return t; }
-#else
+#elif APEXSTORM_BYTE_ORDER == APEXSTORM_BIG_ENDIAN
 extern "C++" template <class T> T byteswapOnLittleEndian(T t) { return t; }
 extern "C++" template <class T> T byteswapOnBigEndian(T t) {
   return byteswap(t);

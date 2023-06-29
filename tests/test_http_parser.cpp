@@ -12,7 +12,7 @@ void test_request() {
   apexstorm::http::HttpRequestParer parser;
   std::string tmp = test_request_data;
   size_t s = parser.execute(&tmp[0], tmp.size());
-  APEXSTORM_LOG_ERROR(g_logger)
+  APEXSTORM_LOG_INFO(g_logger)
       << "execute rt=" << s << " has_error=" << parser.hasError()
       << " is_finished=" << parser.isFinished() << " total=" << tmp.size()
       << " content-length=" << parser.getContentLength();
@@ -45,7 +45,7 @@ void test_response() {
   std::string tmp = test_response_data;
   size_t s = parser.execute(&tmp[0], tmp.size());
 
-  APEXSTORM_LOG_ERROR(g_logger)
+  APEXSTORM_LOG_INFO(g_logger)
       << "execute rt=" << s << " has_error=" << parser.hasError()
       << " is_finished=" << parser.isFinished() << " total=" << tmp.size()
       << " content-length=" << parser.getContentLength();

@@ -127,7 +127,7 @@ public:
   virtual std::ostream &insert(std::ostream &os) const = 0;
 
   // Return readable string.
-  std::string toString();
+  std::string toString() const;
 
   bool operator<(const Address &rhs) const;
   bool operator==(const Address &rhs) const;
@@ -279,8 +279,7 @@ private:
 };
 
 inline std::ostream &operator<<(std::ostream &os, const Address &addr) {
-  addr.insert(os);
-  return os;
+  return addr.insert(os);
 }
 } // namespace apexstorm
 

@@ -28,10 +28,17 @@ add_includedirs("packages/http11")
 add_files("packages/http11/*.cpp")
 
 -- target
--- `main` in src/main.cpp
--- others in tests/*.cpp
-targets = {
+
+-- source files are in "$ProjectDir/src"
+src_targets = {
   "main",
+}
+-- source files are in "$ProjectDir/examples"
+example_targets = {
+  "echo_server"
+}
+-- source files are in "$ProjectDir/tests"
+test_targets = {
   "test_log",
   "test_config",
   "test_thread",
@@ -45,19 +52,19 @@ targets = {
   "test_bytearray",
   "test_http",
   "test_http_parser",
+  "test_tcp_server",
   "test_util",
 }
 
 -- iterate over all targets
-for i, label in pairs(targets) do
-  if (label == "main")
-  then
-    target("main")
-      set_kind("binary")
-      add_files("src/*.cpp")
-  else
+function iterate_target(prefix_path ,targets)
+  for i, label in pairs(targets) do
     target(label)
       set_kind("binary")
-      add_files("tests/" .. label .. ".cpp")
+      add_files(prefix_path .. label .. ".cpp")
   end
 end
+
+iterate_target("src/", src_targets)
+iterate_target("examples/", example_targets)
+iterate_target("tests/", test_targets)

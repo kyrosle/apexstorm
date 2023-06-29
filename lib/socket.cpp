@@ -199,7 +199,8 @@ bool Socket::bind(const Address::ptr addr) {
   // hooked
   if (::bind(m_sock, addr->getAddr(), addr->getAddrLen())) {
     APEXSTORM_LOG_ERROR(g_logger)
-        << "bind error errno=" << errno << " errstr=" << strerror(errno);
+        << "bind error sock=" << m_sock << " errno=" << errno
+        << " errstr=" << strerror(errno);
     return false;
   }
   // initialize local address
@@ -257,7 +258,7 @@ bool Socket::listen(int backlog) {
     return false;
   }
   // hooked
-  if (::listen(m_sock, backlog) == 0) {
+  if (::listen(m_sock, backlog) != 0) {
     APEXSTORM_LOG_ERROR(g_logger)
         << "listen error errno=" << errno << " errstr=" << strerror(errno);
     return false;
