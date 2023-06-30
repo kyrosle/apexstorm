@@ -32,6 +32,16 @@ static apexstorm::ConfigVar<uint64_t>::ptr g_http_request_max_body_size =
 static uint64_t s_http_request_buffer_size = 0;
 static uint64_t s_http_request_max_body_size = 0;
 
+uint64_t HttpRequestParer::GetHttpRequestBufferSize() {
+  return s_http_request_buffer_size;
+}
+
+uint64_t HttpRequestParer::GetHttpRequestMaxBodySize() {
+  return s_http_request_max_body_size;
+}
+
+namespace {
+
 // Initialize relevant Request setting before main function.
 struct _RequestSizeIniter {
   _RequestSizeIniter() {
@@ -50,6 +60,8 @@ struct _RequestSizeIniter {
   }
 };
 static _RequestSizeIniter _init;
+
+} // namespace
 
 void on_request_method(void *data, const char *at, size_t len) {
   HttpRequestParer *parser = static_cast<HttpRequestParer *>(data);

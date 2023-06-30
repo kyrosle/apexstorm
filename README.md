@@ -721,11 +721,23 @@ ragel -G2  http11_parser.rl -o http11_parser.rl.cpp
 ragel -G2 httpclient_parser.rl -o httpclient_parser.rl.cpp
 ```
 
-TcpServer:
+## TcpServer
 
 should override the virtual method `handleClient`
 
 implement example [echoServer](examples/echo_server.cpp)
+
+## Stream for file/socket
+
+read/write/readFixSize/writeFixSize
+
+HttpSession, HttpConnection
+
+Server.accept, socket -> session
+
+client connect socket -> connection
+
+HTTPServer : TcpServer
 
 ## Distributed Protocol
 

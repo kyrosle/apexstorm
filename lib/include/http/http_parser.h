@@ -11,6 +11,7 @@
 #ifndef __APEXSTORM_HTTP_PARSER_H
 #define __APEXSTORM_HTTP_PARSER_H
 
+#include <cstdint>
 #include <memory>
 
 #include "http.h"
@@ -48,6 +49,10 @@ public:
 
   // Get the Message total length.
   uint64_t getContentLength();
+
+public:
+  static uint64_t GetHttpRequestBufferSize();
+  static uint64_t GetHttpRequestMaxBodySize();
 
 private:
   // http parser

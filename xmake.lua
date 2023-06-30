@@ -20,7 +20,7 @@ set_targetdir("bin")
 
 -- include self includes
 add_includedirs("lib/include")
--- add_includedirs("lib/include/http")
+add_includedirs("lib/include/http")
 add_files("lib/*.cpp")
 
 -- add http parser(form: https://github.com/mongrel2/mongrel2/tree/master/src/http11)
@@ -53,6 +53,7 @@ test_targets = {
   "test_http",
   "test_http_parser",
   "test_tcp_server",
+  "test_server",
   "test_util",
 }
 
